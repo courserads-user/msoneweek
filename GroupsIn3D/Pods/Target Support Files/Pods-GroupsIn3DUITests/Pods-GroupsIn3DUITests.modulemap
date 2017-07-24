@@ -1,0 +1,6 @@
+framework module Pods_GroupsIn3DUITests {
+  umbrella header "Pods-GroupsIn3DUITests-umbrella.h"
+
+  export *
+  module * { export * }
+}
