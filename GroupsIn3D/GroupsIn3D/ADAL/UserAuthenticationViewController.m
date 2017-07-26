@@ -9,10 +9,14 @@
 #import "UserAuthenticationViewController.h"
 #import "ADALAuthenticationHandler.h"
 #import "ViewController.h"
+#import <ProjectOxfordFace/ProjectOxfordFace-umbrella.h>
+#import "Constants.h"
+#import "GLOBALS.h"
 
 @interface UserAuthenticationViewController ()
 
 @property (weak, nonatomic) IBOutlet UITextField *txtEmailAddress;
+@property (weak, nonatomic) IBOutlet UIButton *btnNext;
 
 @end
 
@@ -20,6 +24,17 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    if([[[userDefaults dictionaryRepresentation] allKeys] containsObject:@"USERID"])
+    {
+        NSString *userId = [userDefaults stringForKey:@"USERID"];
+        if(![userId isEqualToString:@""])
+        {
+            [[self txtEmailAddress] setText:userId];
+            [self authenticateForUser:userId];
+        }
+    }
+    
     // Do any additional setup after loading the view.
 }
 
@@ -29,28 +44,41 @@
 }
 
 - (IBAction)btnNextClicked:(id)sender {
-    [ADALAuthenticationHandler getTokenForUser:[[self txtEmailAddress] text] andCompletionBlock:^(NSString *accessToken) {
+    [self authenticateForUser:[[self txtEmailAddress] text]];
+}
+
+-(void)authenticateForUser:(NSString *)userId
+{
+    [[self btnNext] setEnabled:NO];
+    [ADALAuthenticationHandler getTokenForUser:userId andCompletionBlock:^(NSString *accessToken) {
         if([accessToken hasPrefix:@"ERROR:"])
         {
-            NSLog(@"ERROR");
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Error"
+                                                                           message:@"Authentication Error!!!"
+                                                                    preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *okaction = [UIAlertAction actionWithTitle:@"Ok" style:UIAlertActionStyleCancel handler:nil ];
+            [alert addAction:okaction];
+            
+            [self presentViewController:alert animated:YES completion:nil];
+            [[self btnNext] setEnabled:YES];
         }
         else
         {
-            ViewController *mainVC = [[ViewController alloc] init];
-            [self presentViewController:mainVC animated:YES completion:NULL];
+            NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+            [userDefaults setObject:userId forKey:@"USERID"];
+            [userDefaults synchronize];
+            
+            MPOFaceServiceClient *faceClient = [[MPOFaceServiceClient alloc] initWithEndpointAndSubscriptionKey:ProjectOxfordFaceEndpoint key:ProjectOxfordFaceSubscriptionKey];
+            [faceClient listPersonsWithPersonGroupId:@"705d8839-3850-45ad-b85a-bddebfd90199" completionBlock:^(NSArray<MPOPerson *> *collection, NSError *error) {
+                for (MPOPerson *person in collection) {
+                    [[[GLOBALS sharedInstance] persons] addObject:person];
+                }
+            }];
+            
+            UIStoryboard * sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+            ViewController *mainVC = [sb instantiateViewControllerWithIdentifier:@"arscenevc"]; // arscenevc facedetectvc
+            [self.navigationController pushViewController:mainVC animated:YES];
         }
-//        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"https://outlook.office365.com/api/v2.0/me"]];
-//        NSString *authHeader = [NSString stringWithFormat:@"Bearer %@", accessToken];
-//        [request addValue:authHeader forHTTPHeaderField:@"Authorization"];
-//
-//        NSOperationQueue *queue = [[NSOperationQueue alloc] init];
-//
-//        [NSURLConnection sendAsynchronousRequest:request
-//                                           queue:queue
-//                               completionHandler:^(NSURLResponse *response, NSData *data, NSError *error)
-//         {
-//             // Process Response Here
-//         }];
     }];
 }
 

@@ -1,0 +1,21 @@
+------------------------------------------------------------------------------------------------------------------------------------------------------
+CREATE CONNECTION AND FIRE REQUEST
+------------------------------------------------------------------------------------------------------------------------------------------------------
+//        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"https://outlook.office365.com/api/v2.0/me"]];
+//        NSString *authHeader = [NSString stringWithFormat:@"Bearer %@", accessToken];
+//        [request addValue:authHeader forHTTPHeaderField:@"Authorization"];
+//
+//        NSOperationQueue *queue = [[NSOperationQueue alloc] init];
+//
+//        [NSURLConnection sendAsynchronousRequest:request
+//                                           queue:queue
+//                               completionHandler:^(NSURLResponse *response, NSData *data, NSError *error)
+//         {
+//             // Process Response Here
+//         }];
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+https://graph.microsoft.com/v1.0/users/prbhide@microsoft.com/memberOf?$select=id,description,displayName,mail,classification,visibility,groupTypes

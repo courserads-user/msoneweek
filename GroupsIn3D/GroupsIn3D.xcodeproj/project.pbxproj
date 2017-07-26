@@ -18,6 +18,12 @@
 		2D2D2CCB1F26704A002201BE /* GroupsIn3DUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D2D2CCA1F26704A002201BE /* GroupsIn3DUITests.m */; };
 		2D76D3FC1F268F5C000F027E /* ADALAuthenticationHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D76D3FB1F268F5B000F027E /* ADALAuthenticationHandler.m */; };
 		2D76D4411F269E9E000F027E /* UserAuthenticationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D76D4401F269E9E000F027E /* UserAuthenticationViewController.m */; };
+		2D76D4441F26B279000F027E /* Notes in Resources */ = {isa = PBXBuildFile; fileRef = 2D76D4431F26B279000F027E /* Notes */; };
+		2D76D4471F26B8EC000F027E /* FaceDetectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D76D4461F26B8EC000F027E /* FaceDetectionViewController.m */; };
+		2D76D44A1F26CD11000F027E /* FrameExtractor.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D76D4491F26CD11000F027E /* FrameExtractor.m */; };
+		2D76D44D1F27B641000F027E /* VNFaceObservation+Hack.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D76D44C1F27B641000F027E /* VNFaceObservation+Hack.m */; };
+		2D76D4591F280D1F000F027E /* arjun.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2D76D4581F280C10000F027E /* arjun.jpg */; };
+		2D76D45C1F280F1E000F027E /* GLOBALS.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D76D45B1F280F1E000F027E /* GLOBALS.m */; };
 		3951A8CBDF2BD8BC1EA1DA5C /* Pods_GroupsIn3DTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F030E7F90BEE2DC5F41EB0B /* Pods_GroupsIn3DTests.framework */; };
 		612D29D8FFFFA2688CFFA101 /* Pods_GroupsIn3D.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 433120146C5485EE6F10FCFE /* Pods_GroupsIn3D.framework */; };
 		AF2C913D7237F1AA5106B738 /* Pods_GroupsIn3DUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A35B25F487B591B6FB8AB0F /* Pods_GroupsIn3DUITests.framework */; };
@@ -68,6 +74,24 @@
 		2D76D43F1F269E9E000F027E /* UserAuthenticationViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserAuthenticationViewController.h; sourceTree = "<group>"; };
 		2D76D4401F269E9E000F027E /* UserAuthenticationViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UserAuthenticationViewController.m; sourceTree = "<group>"; };
 		2D76D4421F26A4ED000F027E /* cover.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cover.png; sourceTree = "<group>"; };
+		2D76D4431F26B279000F027E /* Notes */ = {isa = PBXFileReference; lastKnownFileType = text; path = Notes; sourceTree = "<group>"; };
+		2D76D4451F26B8EC000F027E /* FaceDetectionViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FaceDetectionViewController.h; sourceTree = "<group>"; };
+		2D76D4461F26B8EC000F027E /* FaceDetectionViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FaceDetectionViewController.m; sourceTree = "<group>"; };
+		2D76D4481F26CD11000F027E /* FrameExtractor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FrameExtractor.h; sourceTree = "<group>"; };
+		2D76D4491F26CD11000F027E /* FrameExtractor.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FrameExtractor.m; sourceTree = "<group>"; };
+		2D76D44B1F27B641000F027E /* VNFaceObservation+Hack.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "VNFaceObservation+Hack.h"; sourceTree = "<group>"; };
+		2D76D44C1F27B641000F027E /* VNFaceObservation+Hack.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "VNFaceObservation+Hack.m"; sourceTree = "<group>"; };
+		2D76D4501F27FCC0000F027E /* UIImage+Resize.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Resize.m"; sourceTree = "<group>"; };
+		2D76D4511F27FCC0000F027E /* UIImage+Resize.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIImage+Resize.h"; sourceTree = "<group>"; };
+		2D76D4521F27FCC0000F027E /* UIImage+Crop.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Crop.m"; sourceTree = "<group>"; };
+		2D76D4531F27FCC0000F027E /* PersonFace.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PersonFace.m; sourceTree = "<group>"; };
+		2D76D4541F27FCC0000F027E /* PersonFace.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PersonFace.h; sourceTree = "<group>"; };
+		2D76D4551F27FCC0000F027E /* UIImage+FixOrientation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIImage+FixOrientation.h"; sourceTree = "<group>"; };
+		2D76D4561F27FCC0000F027E /* UIImage+Crop.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIImage+Crop.h"; sourceTree = "<group>"; };
+		2D76D4571F27FCC0000F027E /* UIImage+FixOrientation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIImage+FixOrientation.m"; sourceTree = "<group>"; };
+		2D76D4581F280C10000F027E /* arjun.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = arjun.jpg; sourceTree = "<group>"; };
+		2D76D45A1F280F1E000F027E /* GLOBALS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GLOBALS.h; sourceTree = "<group>"; };
+		2D76D45B1F280F1E000F027E /* GLOBALS.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GLOBALS.m; sourceTree = "<group>"; };
 		348934761C8449AEAD398D82 /* Pods-GroupsIn3D.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GroupsIn3D.release.xcconfig"; path = "Pods/Target Support Files/Pods-GroupsIn3D/Pods-GroupsIn3D.release.xcconfig"; sourceTree = "<group>"; };
 		3A35B25F487B591B6FB8AB0F /* Pods_GroupsIn3DUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GroupsIn3DUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3FD01CBBA4AEB4ACE2FF8BF5 /* Pods-GroupsIn3D.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GroupsIn3D.debug.xcconfig"; path = "Pods/Target Support Files/Pods-GroupsIn3D/Pods-GroupsIn3D.debug.xcconfig"; sourceTree = "<group>"; };
@@ -122,6 +146,10 @@
 		2D2D2C981F267049002201BE = {
 			isa = PBXGroup;
 			children = (
+				2D76D44B1F27B641000F027E /* VNFaceObservation+Hack.h */,
+				2D76D44C1F27B641000F027E /* VNFaceObservation+Hack.m */,
+				2D76D4481F26CD11000F027E /* FrameExtractor.h */,
+				2D76D4491F26CD11000F027E /* FrameExtractor.m */,
 				2D134E641F2688DB00B5F459 /* Constants.h */,
 				2D2D2CD81F267124002201BE /* Podfile */,
 				2D2D2CA31F267049002201BE /* GroupsIn3D */,
@@ -146,6 +174,14 @@
 		2D2D2CA31F267049002201BE /* GroupsIn3D */ = {
 			isa = PBXGroup;
 			children = (
+				2D76D4541F27FCC0000F027E /* PersonFace.h */,
+				2D76D4531F27FCC0000F027E /* PersonFace.m */,
+				2D76D4561F27FCC0000F027E /* UIImage+Crop.h */,
+				2D76D4521F27FCC0000F027E /* UIImage+Crop.m */,
+				2D76D4551F27FCC0000F027E /* UIImage+FixOrientation.h */,
+				2D76D4571F27FCC0000F027E /* UIImage+FixOrientation.m */,
+				2D76D4511F27FCC0000F027E /* UIImage+Resize.h */,
+				2D76D4501F27FCC0000F027E /* UIImage+Resize.m */,
 				2D76D4421F26A4ED000F027E /* cover.png */,
 				2D76D3F91F268F47000F027E /* ADAL */,
 				2D76D3F81F268F07000F027E /* GroupsIn3D.entitlements */,
@@ -159,6 +195,12 @@
 				2D2D2CB11F267049002201BE /* LaunchScreen.storyboard */,
 				2D2D2CB41F267049002201BE /* Info.plist */,
 				2D2D2CB51F267049002201BE /* main.m */,
+				2D76D4431F26B279000F027E /* Notes */,
+				2D76D4451F26B8EC000F027E /* FaceDetectionViewController.h */,
+				2D76D4461F26B8EC000F027E /* FaceDetectionViewController.m */,
+				2D76D4581F280C10000F027E /* arjun.jpg */,
+				2D76D45A1F280F1E000F027E /* GLOBALS.h */,
+				2D76D45B1F280F1E000F027E /* GLOBALS.m */,
 			);
 			path = GroupsIn3D;
 			sourceTree = "<group>";
@@ -321,8 +363,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				2D2D2CA81F267049002201BE /* art.scnassets in Resources */,
+				2D76D4441F26B279000F027E /* Notes in Resources */,
 				2D2D2CB31F267049002201BE /* LaunchScreen.storyboard in Resources */,
 				2D2D2CB01F267049002201BE /* Assets.xcassets in Resources */,
+				2D76D4591F280D1F000F027E /* arjun.jpg in Resources */,
 				2D2D2CAE1F267049002201BE /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -487,9 +531,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				2D2D2CAB1F267049002201BE /* ViewController.m in Sources */,
+				2D76D4471F26B8EC000F027E /* FaceDetectionViewController.m in Sources */,
 				2D2D2CB61F267049002201BE /* main.m in Sources */,
 				2D76D4411F269E9E000F027E /* UserAuthenticationViewController.m in Sources */,
+				2D76D44D1F27B641000F027E /* VNFaceObservation+Hack.m in Sources */,
 				2D76D3FC1F268F5C000F027E /* ADALAuthenticationHandler.m in Sources */,
+				2D76D45C1F280F1E000F027E /* GLOBALS.m in Sources */,
+				2D76D44A1F26CD11000F027E /* FrameExtractor.m in Sources */,
 				2D2D2CA61F267049002201BE /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

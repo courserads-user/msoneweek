@@ -19,7 +19,7 @@
     ADAuthenticationContext *authContext = [ADAuthenticationContext authenticationContextWithAuthority:@"https://login.microsoftonline.com/common"
                                                                         error:&error];
     
-    [authContext acquireTokenWithResource:@"https://outlook.office365.com/"
+    [authContext acquireTokenWithResource:@"https://graph.microsoft.com/"
                                  clientId:@"d3590ed6-52b3-4102-aeff-aad2292ab01c"
                               redirectUri:[NSURL URLWithString:@"urn:ietf:wg:oauth:2.0:oob"] // Comes from App Portal
                                    userId:user
