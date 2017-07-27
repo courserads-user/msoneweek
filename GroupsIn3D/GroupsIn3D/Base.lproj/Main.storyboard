@@ -5,6 +5,7 @@
     </device>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13137.5"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -105,6 +106,81 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SZV-WD-TEh" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="260" y="-9"/>
+        </scene>
+        <!--Scene View Controller-->
+        <scene sceneID="vVb-mK-PB2">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="rYT-Em-CTq" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewController storyboardIdentifier="newarscene" id="UiK-y3-ySZ" customClass="ARSceneViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="YES" id="b6G-CY-fSw">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <arscnView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Dg4-rv-g6l">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                            </arscnView>
+                            <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BsQ-sE-D1u">
+                                <rect key="frame" x="16" y="20" width="343" height="48"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="04D-hl-ShE">
+                                    <rect key="frame" x="0.0" y="0.0" width="343" height="48"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="efm-4C-u9P">
+                                            <rect key="frame" x="0.0" y="0.0" width="343" height="48"/>
+                                            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="Ca5-ZM-AP8">
+                                                <rect key="frame" x="0.0" y="0.0" width="343" height="48"/>
+                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tracking Status" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xz0-2c-hpZ">
+                                                        <rect key="frame" x="0.0" y="14" width="335" height="21"/>
+                                                        <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                </subviews>
+                                                <constraints>
+                                                    <constraint firstItem="xz0-2c-hpZ" firstAttribute="leading" secondItem="Ca5-ZM-AP8" secondAttribute="leading" id="0Ci-kH-LHL"/>
+                                                    <constraint firstItem="xz0-2c-hpZ" firstAttribute="top" secondItem="Ca5-ZM-AP8" secondAttribute="top" constant="14" id="XQI-i8-21w"/>
+                                                    <constraint firstItem="xz0-2c-hpZ" firstAttribute="centerY" secondItem="Ca5-ZM-AP8" secondAttribute="centerY" id="bcF-Rm-aeQ"/>
+                                                    <constraint firstItem="xz0-2c-hpZ" firstAttribute="trailing" secondItem="Ca5-ZM-AP8" secondAttribute="trailingMargin" id="qNs-ld-Jxo"/>
+                                                </constraints>
+                                            </view>
+                                            <vibrancyEffect>
+                                                <blurEffect style="extraLight"/>
+                                            </vibrancyEffect>
+                                        </visualEffectView>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="efm-4C-u9P" firstAttribute="leading" secondItem="04D-hl-ShE" secondAttribute="leading" id="Abp-oM-0QL"/>
+                                        <constraint firstAttribute="bottom" secondItem="efm-4C-u9P" secondAttribute="bottom" id="B39-9v-Iz8"/>
+                                        <constraint firstItem="efm-4C-u9P" firstAttribute="top" secondItem="04D-hl-ShE" secondAttribute="top" id="IbK-ic-Vgs"/>
+                                        <constraint firstAttribute="trailing" secondItem="efm-4C-u9P" secondAttribute="trailing" id="x7j-IT-Ej6"/>
+                                    </constraints>
+                                </view>
+                                <blurEffect style="light"/>
+                            </visualEffectView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Dg4-rv-g6l" firstAttribute="bottom" secondItem="Xqm-Ei-q0Z" secondAttribute="bottom" id="5Tb-td-ThF"/>
+                            <constraint firstItem="Dg4-rv-g6l" firstAttribute="top" secondItem="b6G-CY-fSw" secondAttribute="top" id="9ml-C8-CFz"/>
+                            <constraint firstItem="BsQ-sE-D1u" firstAttribute="top" secondItem="Xqm-Ei-q0Z" secondAttribute="top" id="Bwc-kP-3cs"/>
+                            <constraint firstItem="BsQ-sE-D1u" firstAttribute="centerX" secondItem="Dg4-rv-g6l" secondAttribute="centerX" id="MK5-pn-uHq"/>
+                            <constraint firstItem="BsQ-sE-D1u" firstAttribute="leading" secondItem="b6G-CY-fSw" secondAttribute="leadingMargin" id="dkZ-2w-Aqm"/>
+                            <constraint firstItem="Xqm-Ei-q0Z" firstAttribute="bottom" secondItem="BsQ-sE-D1u" secondAttribute="bottom" constant="599" id="kup-bj-r8W"/>
+                            <constraint firstAttribute="trailing" secondItem="Dg4-rv-g6l" secondAttribute="trailing" id="nbt-Vx-hkt"/>
+                            <constraint firstItem="Dg4-rv-g6l" firstAttribute="leading" secondItem="b6G-CY-fSw" secondAttribute="leading" id="yLq-SE-UBY"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="Xqm-Ei-q0Z"/>
+                    </view>
+                    <connections>
+                        <outlet property="messageLabel" destination="xz0-2c-hpZ" id="LNT-ST-3F0"/>
+                        <outlet property="messagePanel" destination="BsQ-sE-D1u" id="aJq-ea-093"/>
+                        <outlet property="sceneView" destination="Dg4-rv-g6l" id="wfP-r3-UwQ"/>
+                    </connections>
+                </viewController>
+            </objects>
+            <point key="canvasLocation" x="924" y="114.69265367316342"/>
         </scene>
     </scenes>
 </document>

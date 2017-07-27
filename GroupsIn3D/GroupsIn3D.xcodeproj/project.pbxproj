@@ -11,7 +11,6 @@
 		2D2D2CA81F267049002201BE /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = 2D2D2CA71F267049002201BE /* art.scnassets */; };
 		2D2D2CAB1F267049002201BE /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D2D2CAA1F267049002201BE /* ViewController.m */; };
 		2D2D2CAE1F267049002201BE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2D2D2CAC1F267049002201BE /* Main.storyboard */; };
-		2D2D2CB01F267049002201BE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2D2D2CAF1F267049002201BE /* Assets.xcassets */; };
 		2D2D2CB31F267049002201BE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2D2D2CB11F267049002201BE /* LaunchScreen.storyboard */; };
 		2D2D2CB61F267049002201BE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D2D2CB51F267049002201BE /* main.m */; };
 		2D2D2CC01F26704A002201BE /* GroupsIn3DTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D2D2CBF1F26704A002201BE /* GroupsIn3DTests.m */; };
@@ -24,6 +23,22 @@
 		2D76D44D1F27B641000F027E /* VNFaceObservation+Hack.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D76D44C1F27B641000F027E /* VNFaceObservation+Hack.m */; };
 		2D76D4591F280D1F000F027E /* arjun.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2D76D4581F280C10000F027E /* arjun.jpg */; };
 		2D76D45C1F280F1E000F027E /* GLOBALS.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D76D45B1F280F1E000F027E /* GLOBALS.m */; };
+		2D76D4601F28F956000F027E /* UserInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D76D45F1F28F956000F027E /* UserInfoModel.m */; };
+		2D76D4631F290B01000F027E /* UserGroupsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D76D4621F290B01000F027E /* UserGroupsModel.m */; };
+		2D76D4661F290B0F000F027E /* UserGroupModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D76D4651F290B0F000F027E /* UserGroupModel.m */; };
+		2D76D4691F29433E000F027E /* UserGroupMember.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D76D4681F29433E000F027E /* UserGroupMember.m */; };
+		2D76D46C1F294390000F027E /* UserGroupConversation.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D76D46B1F294390000F027E /* UserGroupConversation.m */; };
+		2D76D46F1F2944CC000F027E /* UserGroupMembers.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D76D46E1F2944CC000F027E /* UserGroupMembers.m */; };
+		2D76D4721F294507000F027E /* UserGroupConversations.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D76D4711F294507000F027E /* UserGroupConversations.m */; };
+		2D76D47F1F295D25000F027E /* cover.png in Resources */ = {isa = PBXBuildFile; fileRef = 2D76D4421F26A4ED000F027E /* cover.png */; };
+		2D76D48E1F295D5C000F027E /* cover20x20.png in Resources */ = {isa = PBXBuildFile; fileRef = 2D76D4881F295D55000F027E /* cover20x20.png */; };
+		2D76D48F1F295D5C000F027E /* cover29x29.png in Resources */ = {isa = PBXBuildFile; fileRef = 2D76D48C1F295D55000F027E /* cover29x29.png */; };
+		2D76D4901F295D5C000F027E /* cover40x40.png in Resources */ = {isa = PBXBuildFile; fileRef = 2D76D48B1F295D55000F027E /* cover40x40.png */; };
+		2D76D4911F295D5C000F027E /* cover60x60.png in Resources */ = {isa = PBXBuildFile; fileRef = 2D76D4891F295D55000F027E /* cover60x60.png */; };
+		2D76D4921F295D5C000F027E /* cover76x76.png in Resources */ = {isa = PBXBuildFile; fileRef = 2D76D4871F295D55000F027E /* cover76x76.png */; };
+		2D76D4931F295D5C000F027E /* cover835x835.png in Resources */ = {isa = PBXBuildFile; fileRef = 2D76D48D1F295D55000F027E /* cover835x835.png */; };
+		2D76D4941F295D5C000F027E /* cover1024x1024.png in Resources */ = {isa = PBXBuildFile; fileRef = 2D76D48A1F295D55000F027E /* cover1024x1024.png */; };
+		2DF175B71F296930005275FE /* ARSceneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DF175B61F296930005275FE /* ARSceneViewController.m */; };
 		3951A8CBDF2BD8BC1EA1DA5C /* Pods_GroupsIn3DTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F030E7F90BEE2DC5F41EB0B /* Pods_GroupsIn3DTests.framework */; };
 		612D29D8FFFFA2688CFFA101 /* Pods_GroupsIn3D.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 433120146C5485EE6F10FCFE /* Pods_GroupsIn3D.framework */; };
 		AF2C913D7237F1AA5106B738 /* Pods_GroupsIn3DUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A35B25F487B591B6FB8AB0F /* Pods_GroupsIn3DUITests.framework */; };
@@ -56,7 +71,6 @@
 		2D2D2CA91F267049002201BE /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		2D2D2CAA1F267049002201BE /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		2D2D2CAD1F267049002201BE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		2D2D2CAF1F267049002201BE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2D2D2CB21F267049002201BE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2D2D2CB41F267049002201BE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2D2D2CB51F267049002201BE /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -92,6 +106,31 @@
 		2D76D4581F280C10000F027E /* arjun.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = arjun.jpg; sourceTree = "<group>"; };
 		2D76D45A1F280F1E000F027E /* GLOBALS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GLOBALS.h; sourceTree = "<group>"; };
 		2D76D45B1F280F1E000F027E /* GLOBALS.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GLOBALS.m; sourceTree = "<group>"; };
+		2D76D45E1F28F956000F027E /* UserInfoModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserInfoModel.h; sourceTree = "<group>"; };
+		2D76D45F1F28F956000F027E /* UserInfoModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UserInfoModel.m; sourceTree = "<group>"; };
+		2D76D4611F290B01000F027E /* UserGroupsModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserGroupsModel.h; sourceTree = "<group>"; };
+		2D76D4621F290B01000F027E /* UserGroupsModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UserGroupsModel.m; sourceTree = "<group>"; };
+		2D76D4641F290B0F000F027E /* UserGroupModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserGroupModel.h; sourceTree = "<group>"; };
+		2D76D4651F290B0F000F027E /* UserGroupModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UserGroupModel.m; sourceTree = "<group>"; };
+		2D76D4671F29433E000F027E /* UserGroupMember.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserGroupMember.h; sourceTree = "<group>"; };
+		2D76D4681F29433E000F027E /* UserGroupMember.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UserGroupMember.m; sourceTree = "<group>"; };
+		2D76D46A1F294390000F027E /* UserGroupConversation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserGroupConversation.h; sourceTree = "<group>"; };
+		2D76D46B1F294390000F027E /* UserGroupConversation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UserGroupConversation.m; sourceTree = "<group>"; };
+		2D76D46D1F2944CC000F027E /* UserGroupMembers.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserGroupMembers.h; sourceTree = "<group>"; };
+		2D76D46E1F2944CC000F027E /* UserGroupMembers.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UserGroupMembers.m; sourceTree = "<group>"; };
+		2D76D4701F294507000F027E /* UserGroupConversations.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserGroupConversations.h; sourceTree = "<group>"; };
+		2D76D4711F294507000F027E /* UserGroupConversations.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UserGroupConversations.m; sourceTree = "<group>"; };
+		2D76D4771F295D07000F027E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		2D76D4871F295D55000F027E /* cover76x76.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cover76x76.png; sourceTree = "<group>"; };
+		2D76D4881F295D55000F027E /* cover20x20.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cover20x20.png; sourceTree = "<group>"; };
+		2D76D4891F295D55000F027E /* cover60x60.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cover60x60.png; sourceTree = "<group>"; };
+		2D76D48A1F295D55000F027E /* cover1024x1024.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cover1024x1024.png; sourceTree = "<group>"; };
+		2D76D48B1F295D55000F027E /* cover40x40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cover40x40.png; sourceTree = "<group>"; };
+		2D76D48C1F295D55000F027E /* cover29x29.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cover29x29.png; sourceTree = "<group>"; };
+		2D76D48D1F295D55000F027E /* cover835x835.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cover835x835.png; sourceTree = "<group>"; };
+		2DF175AD1F29622D005275FE /* GroupsIn3D-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GroupsIn3D-Bridging-Header.h"; sourceTree = "<group>"; };
+		2DF175B51F296930005275FE /* ARSceneViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ARSceneViewController.h; sourceTree = "<group>"; };
+		2DF175B61F296930005275FE /* ARSceneViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ARSceneViewController.m; sourceTree = "<group>"; };
 		348934761C8449AEAD398D82 /* Pods-GroupsIn3D.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GroupsIn3D.release.xcconfig"; path = "Pods/Target Support Files/Pods-GroupsIn3D/Pods-GroupsIn3D.release.xcconfig"; sourceTree = "<group>"; };
 		3A35B25F487B591B6FB8AB0F /* Pods_GroupsIn3DUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GroupsIn3DUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3FD01CBBA4AEB4ACE2FF8BF5 /* Pods-GroupsIn3D.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GroupsIn3D.debug.xcconfig"; path = "Pods/Target Support Files/Pods-GroupsIn3D/Pods-GroupsIn3D.debug.xcconfig"; sourceTree = "<group>"; };
@@ -174,6 +213,16 @@
 		2D2D2CA31F267049002201BE /* GroupsIn3D */ = {
 			isa = PBXGroup;
 			children = (
+				2DF175AB1F2961FF005275FE /* New Group */,
+				2D76D4881F295D55000F027E /* cover20x20.png */,
+				2D76D48C1F295D55000F027E /* cover29x29.png */,
+				2D76D48B1F295D55000F027E /* cover40x40.png */,
+				2D76D4891F295D55000F027E /* cover60x60.png */,
+				2D76D4871F295D55000F027E /* cover76x76.png */,
+				2D76D48D1F295D55000F027E /* cover835x835.png */,
+				2D76D48A1F295D55000F027E /* cover1024x1024.png */,
+				2D76D4771F295D07000F027E /* Assets.xcassets */,
+				2D76D45D1F28F92E000F027E /* GraphModels */,
 				2D76D4541F27FCC0000F027E /* PersonFace.h */,
 				2D76D4531F27FCC0000F027E /* PersonFace.m */,
 				2D76D4561F27FCC0000F027E /* UIImage+Crop.h */,
@@ -191,7 +240,6 @@
 				2D2D2CA91F267049002201BE /* ViewController.h */,
 				2D2D2CAA1F267049002201BE /* ViewController.m */,
 				2D2D2CAC1F267049002201BE /* Main.storyboard */,
-				2D2D2CAF1F267049002201BE /* Assets.xcassets */,
 				2D2D2CB11F267049002201BE /* LaunchScreen.storyboard */,
 				2D2D2CB41F267049002201BE /* Info.plist */,
 				2D2D2CB51F267049002201BE /* main.m */,
@@ -201,6 +249,8 @@
 				2D76D4581F280C10000F027E /* arjun.jpg */,
 				2D76D45A1F280F1E000F027E /* GLOBALS.h */,
 				2D76D45B1F280F1E000F027E /* GLOBALS.m */,
+				2DF175B51F296930005275FE /* ARSceneViewController.h */,
+				2DF175B61F296930005275FE /* ARSceneViewController.m */,
 			);
 			path = GroupsIn3D;
 			sourceTree = "<group>";
@@ -232,6 +282,35 @@
 				2D76D4401F269E9E000F027E /* UserAuthenticationViewController.m */,
 			);
 			path = ADAL;
+			sourceTree = "<group>";
+		};
+		2D76D45D1F28F92E000F027E /* GraphModels */ = {
+			isa = PBXGroup;
+			children = (
+				2D76D45E1F28F956000F027E /* UserInfoModel.h */,
+				2D76D45F1F28F956000F027E /* UserInfoModel.m */,
+				2D76D4611F290B01000F027E /* UserGroupsModel.h */,
+				2D76D4621F290B01000F027E /* UserGroupsModel.m */,
+				2D76D4641F290B0F000F027E /* UserGroupModel.h */,
+				2D76D4651F290B0F000F027E /* UserGroupModel.m */,
+				2D76D4671F29433E000F027E /* UserGroupMember.h */,
+				2D76D4681F29433E000F027E /* UserGroupMember.m */,
+				2D76D46A1F294390000F027E /* UserGroupConversation.h */,
+				2D76D46B1F294390000F027E /* UserGroupConversation.m */,
+				2D76D46D1F2944CC000F027E /* UserGroupMembers.h */,
+				2D76D46E1F2944CC000F027E /* UserGroupMembers.m */,
+				2D76D4701F294507000F027E /* UserGroupConversations.h */,
+				2D76D4711F294507000F027E /* UserGroupConversations.m */,
+			);
+			path = GraphModels;
+			sourceTree = "<group>";
+		};
+		2DF175AB1F2961FF005275FE /* New Group */ = {
+			isa = PBXGroup;
+			children = (
+				2DF175AD1F29622D005275FE /* GroupsIn3D-Bridging-Header.h */,
+			);
+			path = "New Group";
 			sourceTree = "<group>";
 		};
 		5DB410359F4F8CB1916C1EC3 /* Frameworks */ = {
@@ -321,6 +400,7 @@
 				TargetAttributes = {
 					2D2D2CA01F267049002201BE = {
 						CreatedOnToolsVersion = 9.0;
+						LastSwiftMigration = 0900;
 						SystemCapabilities = {
 							com.apple.Keychain = {
 								enabled = 1;
@@ -364,9 +444,16 @@
 			files = (
 				2D2D2CA81F267049002201BE /* art.scnassets in Resources */,
 				2D76D4441F26B279000F027E /* Notes in Resources */,
+				2D76D4931F295D5C000F027E /* cover835x835.png in Resources */,
 				2D2D2CB31F267049002201BE /* LaunchScreen.storyboard in Resources */,
-				2D2D2CB01F267049002201BE /* Assets.xcassets in Resources */,
+				2D76D48E1F295D5C000F027E /* cover20x20.png in Resources */,
+				2D76D4911F295D5C000F027E /* cover60x60.png in Resources */,
+				2D76D4921F295D5C000F027E /* cover76x76.png in Resources */,
+				2D76D4901F295D5C000F027E /* cover40x40.png in Resources */,
+				2D76D4941F295D5C000F027E /* cover1024x1024.png in Resources */,
+				2D76D47F1F295D25000F027E /* cover.png in Resources */,
 				2D76D4591F280D1F000F027E /* arjun.jpg in Resources */,
+				2D76D48F1F295D5C000F027E /* cover29x29.png in Resources */,
 				2D2D2CAE1F267049002201BE /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -533,11 +620,19 @@
 				2D2D2CAB1F267049002201BE /* ViewController.m in Sources */,
 				2D76D4471F26B8EC000F027E /* FaceDetectionViewController.m in Sources */,
 				2D2D2CB61F267049002201BE /* main.m in Sources */,
+				2D76D4631F290B01000F027E /* UserGroupsModel.m in Sources */,
+				2D76D4661F290B0F000F027E /* UserGroupModel.m in Sources */,
 				2D76D4411F269E9E000F027E /* UserAuthenticationViewController.m in Sources */,
 				2D76D44D1F27B641000F027E /* VNFaceObservation+Hack.m in Sources */,
 				2D76D3FC1F268F5C000F027E /* ADALAuthenticationHandler.m in Sources */,
+				2D76D4601F28F956000F027E /* UserInfoModel.m in Sources */,
+				2DF175B71F296930005275FE /* ARSceneViewController.m in Sources */,
+				2D76D46C1F294390000F027E /* UserGroupConversation.m in Sources */,
+				2D76D46F1F2944CC000F027E /* UserGroupMembers.m in Sources */,
 				2D76D45C1F280F1E000F027E /* GLOBALS.m in Sources */,
 				2D76D44A1F26CD11000F027E /* FrameExtractor.m in Sources */,
+				2D76D4721F294507000F027E /* UserGroupConversations.m in Sources */,
+				2D76D4691F29433E000F027E /* UserGroupMember.m in Sources */,
 				2D2D2CA61F267049002201BE /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -625,6 +720,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -644,6 +740,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = GroupsIn3D;
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -680,6 +777,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = NO;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -692,6 +790,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = GroupsIn3D;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -702,12 +801,17 @@
 			baseConfigurationReference = 3FD01CBBA4AEB4ACE2FF8BF5 /* Pods-GroupsIn3D.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = GroupsIn3D/GroupsIn3D.entitlements;
+				DEFINES_MODULE = NO;
 				DEVELOPMENT_TEAM = UBF8T346G9;
 				INFOPLIST_FILE = GroupsIn3D/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.GroupsIn3D;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "GroupsIn3D/New Group/GroupsIn3D-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -717,12 +821,16 @@
 			baseConfigurationReference = 348934761C8449AEAD398D82 /* Pods-GroupsIn3D.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = GroupsIn3D/GroupsIn3D.entitlements;
+				DEFINES_MODULE = NO;
 				DEVELOPMENT_TEAM = UBF8T346G9;
 				INFOPLIST_FILE = GroupsIn3D/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.GroupsIn3D;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "GroupsIn3D/New Group/GroupsIn3D-Bridging-Header.h";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

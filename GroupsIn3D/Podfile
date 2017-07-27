@@ -8,6 +8,7 @@ target 'GroupsIn3D' do
   # Pods for GroupsIn3D
   pod 'ProjectOxfordFace'
   pod 'ADAL', '~> 2.2'
+  pod 'Mantle'
   
   target 'GroupsIn3DTests' do
     inherit! :search_paths

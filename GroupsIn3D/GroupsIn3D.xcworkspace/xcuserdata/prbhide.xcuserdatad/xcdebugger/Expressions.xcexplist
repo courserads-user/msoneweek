@@ -3,13 +3,42 @@
    version = "1.0">
    <ContextStates>
       <ContextState
-         contextName = "__41-[ViewController touchesEnded:withEvent:]_block_invoke_4:ViewController.m">
+         contextName = "-[JSONModel initWithData:error:]:JSONModel.m">
       </ContextState>
       <ContextState
-         contextName = "__41-[ViewController touchesEnded:withEvent:]_block_invoke_2:ViewController.m">
+         contextName = "__31-[ViewController processAlias:]_block_invoke_3:ViewController.m">
       </ContextState>
       <ContextState
-         contextName = "-[ViewController session:didUpdateFrame:]:ViewController.m">
+         contextName = "__51-[UserAuthenticationViewController btnNextClicked:]_block_invoke:UserAuthenticationViewController.m">
+      </ContextState>
+      <ContextState
+         contextName = "__64+[ADALAuthenticationHandler getTokenForUser:andCompletionBlock:]_block_invoke:ADALAuthenticationHandler.m">
+      </ContextState>
+      <ContextState
+         contextName = "-[JSONModel initWithDictionary:error:]:JSONModel.m">
+      </ContextState>
+      <ContextState
+         contextName = "-[JSONModel __inspectProperties]:JSONModel.m">
+      </ContextState>
+      <ContextState
+         contextName = "-[JSONModel __importDictionary:withKeyMapper:validation:error:]:JSONModel.m">
+      </ContextState>
+      <ContextState
+         contextName = "-[JSONModel __properties__]:JSONModel.m">
+      </ContextState>
+      <ContextState
+         contextName = "+[MTLJSONAdapter modelOfClass:fromJSONDictionary:error:]:MTLJSONAdapter.m">
+      </ContextState>
+      <ContextState
+         contextName = "__27-[ViewController getToken:]_block_invoke:ViewController.m">
+      </ContextState>
+      <ContextState
+         contextName = "__31-[ViewController processAlias:]_block_invoke_2:ViewController.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "[[[group groupTypes] objectAtIndex:0] isEqualToString:@&quot;Unified&quot;]">
+            </PersistentString>
+         </PersistentStrings>
       </ContextState>
    </ContextStates>
 </VariablesViewState>

@@ -9,6 +9,7 @@
 #import "UserAuthenticationViewController.h"
 #import "ADALAuthenticationHandler.h"
 #import "ViewController.h"
+#import "ARSceneViewController.h"
 #import <ProjectOxfordFace/ProjectOxfordFace-umbrella.h>
 #import "Constants.h"
 #import "GLOBALS.h"
@@ -76,7 +77,10 @@
             }];
             
             UIStoryboard * sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-            ViewController *mainVC = [sb instantiateViewControllerWithIdentifier:@"arscenevc"]; // arscenevc facedetectvc
+//            ViewController *mainVC = [sb instantiateViewControllerWithIdentifier:@"arscenevc"]; // arscenevc facedetectvc
+//            [self.navigationController pushViewController:mainVC animated:YES];
+            
+            ARSceneViewController *mainVC = [sb instantiateViewControllerWithIdentifier:@"newarscene"]; // arscenevc facedetectvc
             [self.navigationController pushViewController:mainVC animated:YES];
         }
     }];

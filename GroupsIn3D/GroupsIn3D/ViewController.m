@@ -14,6 +14,19 @@
 #import "GLOBALS.h"
 #import "UIImage+Crop.h"
 #import "ADALAuthenticationHandler.h"
+#import "UserInfoModel.h"
+#import "UserGroupsModel.h"
+#import "UserGroupModel.h"
+#import "UserGroupMembers.h"
+#import "UserGroupConversations.h"
+#import "UserGroupMember.h"
+#import "UserGroupConversation.h"
+#import <Mantle/Mantle.h>
+
+const NSString *GET_USER_INFO_URL1 = @"https://graph.microsoft.com/v1.0/users/%@@microsoft.com?$select=id,businessPhones,displayName,givenName,jobTitle,mail,mobilePhone,officeLocation,preferredLanguage,surname,userPrincipalName";
+const NSString *GET_USER_GROUPS_URL1 = @"https://graph.microsoft.com/v1.0/users/%@@microsoft.com/memberOf?$select=id,description,displayName,mail,classification,visibility,groupTypes&$top=999";
+const NSString *GET_USER_GROUP_MEMBERS_URL1 = @"https://graph.microsoft.com/v1.0/groups/%@/members?$top=5&$select=id,displayName,mail";
+const NSString *GET_USER_GROUP_CONVERSATIONS_URL1 = @"https://graph.microsoft.com/v1.0/groups/%@/conversations?$top=5";
 
 @interface ViewController () <ARSCNViewDelegate, ARSessionDelegate>
 
@@ -29,6 +42,8 @@
     self.sceneView.delegate = self;
     self.sceneView.showsStatistics = YES;
     self.sceneView.session.delegate = self;
+    
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -101,56 +116,155 @@
                         }
                     }
                     
-                    [self processAlias:alias];
+                    [self processAlias:alias andCompletionHandler:^(id model) {
+                        UserInfoModel *userInfo = model;
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [self ProcessUIForUserInfo:userInfo];
+                        });
+                    }];
                 }
             }];
         }];
     });
 }
 
--(void)processAlias:(NSString *)alias
+-(void)ProcessUIForUserInfo:(UserInfoModel *)userInfoModel
+{
+    NSLog(@"USER DISPLAY NAME: %@", [userInfoModel displayName]);
+    NSLog(@"USER GROUPS COUNT: %lu", [[userInfoModel userGroups] count]);
+    for (UserGroupModel *group in [userInfoModel userGroups]) {
+        NSLog(@"================================================================================");
+        NSLog(@"USER GROUPS NAME: %@", [group displayName]);
+        NSLog(@"USER GROUPS MEMBERS COUNT: %lu", [[group members] count]);
+        NSLog(@"USER GROUPS CONVERSATIONS COUNT: %lu", [[group conversations] count]);
+        for (UserGroupMember *member in [group members]) {
+            NSLog(@"USER GROUP MEMBER NAME: %@", [member displayName]);
+        }
+        
+        for (UserGroupConversation *conversation in [group conversations]) {
+            NSLog(@"USER GROUP MEMBER CONVERSATION: %@", [conversation topic]);
+        }
+        
+        NSLog(@"================================================================================\n\n\n");
+    }
+}
+
+-(void)processAlias:(NSString *)alias andCompletionHandler:(void(^)(id))completionHandler
 {
     NSString *userId = [[GLOBALS sharedInstance] getCurrentUserId];
     [ADALAuthenticationHandler getTokenForUser:userId andCompletionBlock:^(NSString *accessToken) {
-        if(![accessToken hasPrefix:@"ERROR:"])
-        {
-            NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://graph.microsoft.com/v1.0/users/%@@microsoft.com/", alias]]];
-            NSString *authHeader = [NSString stringWithFormat:@"Bearer %@", accessToken];
-            [request addValue:authHeader forHTTPHeaderField:@"Authorization"];
+        if([accessToken hasPrefix:@"ERROR:"])
+            completionHandler(nil);
+        
+        [self runGraphRequest:[NSString stringWithFormat:GET_USER_INFO_URL1, alias] andClass:[UserInfoModel class] andIsSync:NO andAccessToken:accessToken andRequestCompletionHandler:^(id model) {
+            if(!model)
+                completionHandler(nil);
             
-            NSOperationQueue *queue = [[NSOperationQueue alloc] init];
-            
-            [NSURLConnection sendAsynchronousRequest:request
-                                               queue:queue
-                                   completionHandler:^(NSURLResponse *response, NSData *data, NSError *error)
-             {
-                 NSError *jsonError;
-                 id jsonDictionaryOrArray = [NSJSONSerialization JSONObjectWithData:data options:nil error:&jsonError];
-                 if(jsonError)
-                     NSLog(@"json error : %@", [jsonError localizedDescription]);
-                 else
-                     NSLog(@"%lu", [jsonDictionaryOrArray count]);
-             }];
-            
-            NSMutableURLRequest *request1 = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://graph.microsoft.com/v1.0/users/%@@microsoft.com/memberOf?$select=id,description,displayName,mail,classification,visibility,groupTypes", alias]]];
-            NSString *authHeader1 = [NSString stringWithFormat:@"Bearer %@", accessToken];
-            [request1 addValue:authHeader1 forHTTPHeaderField:@"Authorization"];
-            
-            NSOperationQueue *queue1 = [[NSOperationQueue alloc] init];
-            
-            [NSURLConnection sendAsynchronousRequest:request1
-                                               queue:queue1
-                                   completionHandler:^(NSURLResponse *response, NSData *data, NSError *error)
-             {
-                 NSError *jsonError;
-                 id jsonDictionaryOrArray = [NSJSONSerialization JSONObjectWithData:data options:nil error:&jsonError];
-                 if(jsonError)
-                     NSLog(@"json error : %@", [jsonError localizedDescription]);
-                 else
-                     NSLog(@"%lu", [jsonDictionaryOrArray count]);
-             }];
-        }
+            UserInfoModel *userInfoModel = model;
+            [self runGraphRequest:[NSString stringWithFormat:GET_USER_GROUPS_URL1, alias] andClass:[UserGroupsModel class] andIsSync:NO andAccessToken:accessToken andRequestCompletionHandler:^(id model) {
+                if(model)
+                {
+                    UserGroupsModel *userGroupsModel = model;
+                    NSMutableArray *eligibleGroups = [NSMutableArray new];
+                    for (UserGroupModel *group in userGroupsModel.value) {
+                        for (NSString *groupType in group.groupTypes) {
+                            if([groupType isEqualToString:@"Unified"])
+                            {
+                                [eligibleGroups addObject:group];
+                                break;
+                            }
+                        }
+                        
+                        if([eligibleGroups count] == 5)
+                            break;
+                    }
+                    
+                    userInfoModel.userGroups = eligibleGroups;
+                    
+                    for (UserGroupModel *group in userInfoModel.userGroups) {
+                        [self runGraphRequest:[NSString stringWithFormat:GET_USER_GROUP_MEMBERS_URL1, [group id]] andClass:[UserGroupMembers class] andIsSync:YES andAccessToken:accessToken andRequestCompletionHandler:^(id model) {
+                            if(model)
+                            {
+                                UserGroupMembers *members = model;
+                                group.members = members.value;
+                                
+                                [self runGraphRequest:[NSString stringWithFormat:GET_USER_GROUP_CONVERSATIONS_URL1, [group id]] andClass:[UserGroupConversations class] andIsSync:YES andAccessToken:accessToken andRequestCompletionHandler:^(id model) {
+                                    if(model)
+                                    {
+                                        UserGroupConversations *conversations = model;
+                                        group.conversations = conversations.value;
+                                    }
+                                }];
+                            }
+                        }];
+                    }
+                    
+                    completionHandler(userInfoModel);
+                }
+                else
+                    completionHandler(userInfoModel);
+            }];
+        }];
     }];
+}
+
+- (void)runGraphRequest:(NSString *)url andClass:(Class)class andIsSync:(BOOL)isSync andAccessToken:(NSString *)accessToken andRequestCompletionHandler:(void(^)(id))requestCompletionHandler
+{
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:url]];
+    NSString *authHeader = [NSString stringWithFormat:@"Bearer %@", accessToken];
+    [request addValue:authHeader forHTTPHeaderField:@"Authorization"];
+    
+    if(isSync)
+    {
+        NSError *error;
+        NSURLResponse *response;
+        NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+        if(!data)
+            requestCompletionHandler(nil);
+        
+        NSError *jsonError;
+        NSDictionary *values = [NSJSONSerialization JSONObjectWithData:data
+                                                               options:kNilOptions
+                                                                 error:&jsonError];
+        if(!jsonError)
+        {
+            NSError *mantleError;
+            id model = [MTLJSONAdapter modelOfClass:class fromJSONDictionary:values error:&mantleError];
+            if(mantleError)
+                requestCompletionHandler(nil);
+            else
+                requestCompletionHandler(model);
+        }
+        else
+            requestCompletionHandler(nil);
+    }
+    else
+    {
+        NSOperationQueue *queue = [[NSOperationQueue alloc] init];
+        [NSURLConnection sendAsynchronousRequest:request
+                                           queue:queue
+                               completionHandler:^(NSURLResponse *response, NSData *data, NSError *error)
+         {
+             if(!data)
+                 requestCompletionHandler(nil);
+             
+             NSError *jsonError;
+             NSDictionary *values = [NSJSONSerialization JSONObjectWithData:data
+                                                                    options:kNilOptions
+                                                                      error:&jsonError];
+             if(!jsonError)
+             {
+                 NSError *mantleError;
+                 id model = [MTLJSONAdapter modelOfClass:class fromJSONDictionary:values error:&mantleError];
+                 if(mantleError)
+                     requestCompletionHandler(nil);
+                 else
+                     requestCompletionHandler(model);
+             }
+             else
+                 requestCompletionHandler(nil);
+         }];
+    }
 }
 
 - (UIImage*)rotateUIImage:(UIImage*)sourceImage clockwise:(BOOL)clockwise
