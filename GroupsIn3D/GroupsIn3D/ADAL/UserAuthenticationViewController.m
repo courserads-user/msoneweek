@@ -18,6 +18,8 @@
 
 @property (weak, nonatomic) IBOutlet UITextField *txtEmailAddress;
 @property (weak, nonatomic) IBOutlet UIButton *btnNext;
+@property (weak, nonatomic) IBOutlet UIView *spinnerView;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *spinner;
 
 @end
 
@@ -26,6 +28,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+	[_spinnerView setHidden:YES];
     if([[[userDefaults dictionaryRepresentation] allKeys] containsObject:@"USERID"])
     {
         NSString *userId = [userDefaults stringForKey:@"USERID"];
@@ -50,8 +53,11 @@
 
 -(void)authenticateForUser:(NSString *)userId
 {
+	[_spinnerView setHidden:NO];
+	[_spinner startAnimating];
     [[self btnNext] setEnabled:NO];
     [ADALAuthenticationHandler getTokenForUser:userId andCompletionBlock:^(NSString *accessToken) {
+		[_spinner stopAnimating];
         if([accessToken hasPrefix:@"ERROR:"])
         {
             UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Error"
@@ -62,6 +68,8 @@
             
             [self presentViewController:alert animated:YES completion:nil];
             [[self btnNext] setEnabled:YES];
+			[_spinner stopAnimating];
+			[_spinnerView setHidden:YES];
         }
         else
         {

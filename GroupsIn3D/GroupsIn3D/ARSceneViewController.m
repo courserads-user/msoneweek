@@ -49,6 +49,10 @@ const NSString *GET_USER_GROUP_CONVERSATIONS_URL = @"https://graph.microsoft.com
     [[self messageLabel] setText:@""];
     self.messagePanel.layer.cornerRadius = 3.0;
     self.messagePanel.clipsToBounds = YES;
+	self.messageLabel.lineBreakMode = NSLineBreakByWordWrapping;
+	self.messageLabel.numberOfLines = 0;
+	self.messagePanel.hidden = YES;
+	[self.view layoutSubviews];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -56,7 +60,7 @@ const NSString *GET_USER_GROUP_CONVERSATIONS_URL = @"https://graph.microsoft.com
     
     // Create a session configuration
     ARWorldTrackingSessionConfiguration *configuration = [ARWorldTrackingSessionConfiguration new];
-    [configuration setWorldAlignment:ARWorldAlignmentCamera];
+	
     // Run the view's session
     [self.sceneView.session runWithConfiguration:configuration];
 }
@@ -92,6 +96,8 @@ const NSString *GET_USER_GROUP_CONVERSATIONS_URL = @"https://graph.microsoft.com
 {
     UIImage *image = [self imageFromSampleBuffer:self.sceneView.session.currentFrame.capturedImage];
     image = [UIImage imageNamed:@"arjun.jpg"];
+	self.messagePanel.hidden = NO;
+	[self.view layoutSubviews];
     [[self messageLabel] setText:@"Identifying Person..."];
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_async(queue, ^{
@@ -140,6 +146,38 @@ const NSString *GET_USER_GROUP_CONVERSATIONS_URL = @"https://graph.microsoft.com
 -(void)ProcessUIForUserInfo:(UserInfoModel *)userInfoModel
 {
     [[self messageLabel] setText:[NSString stringWithFormat:@"Data Loaded for %@", [userInfoModel displayName]]];
+	dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 3 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+		self.messagePanel.hidden = YES;
+		[self.view layoutSubviews];
+	});
+	
+	// The 3D cube geometry we want to draw
+	SCNBox *boxGeometry = [SCNBox
+						   boxWithWidth:0.1
+						   height:0.1
+						   length:0.1
+						   chamferRadius:0.0];
+	// The node that wraps the geometry so we can add it to the scene
+	SCNNode *boxNode = [SCNNode nodeWithGeometry:boxGeometry];
+	
+	SCNText *textGeometry = [SCNText textWithString:[userInfoModel displayName] extrusionDepth:4];
+	[textGeometry setFont:[UIFont fontWithName:@"Helvatica" size:14.f]];
+	[[[textGeometry firstMaterial] diffuse] setContents:[UIColor redColor]];
+	textGeometry.alignmentMode = kCAAlignmentCenter;
+	
+	SCNNode *textNode = [SCNNode nodeWithGeometry:textGeometry];
+	
+	textNode.position = SCNVector3Make(0, 0, -0.5);
+	
+	// Position the box just in front of the camera
+	boxNode.position = SCNVector3Make(0, 0, -0.5);
+	
+	[boxNode addChildNode:textNode];
+	
+	// rootNode is a special node, it is the starting point of all
+	// the items in the 3D scene
+	[self.sceneView.scene.rootNode addChildNode: boxNode];
+	
     NSLog(@"USER DISPLAY NAME: %@", [userInfoModel displayName]);
     NSLog(@"USER GROUPS COUNT: %lu", [[userInfoModel userGroups] count]);
     for (UserGroupModel *group in [userInfoModel userGroups]) {
