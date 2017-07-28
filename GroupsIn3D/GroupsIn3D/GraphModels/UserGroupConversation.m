@@ -15,7 +15,7 @@
              @"id" : @"id",
              @"topic" : @"topic",
              @"preview" : @"preview",
-             @"senders" : @"senders",
+             @"senders" : @"uniqueSenders",
              @"lastDeliveredDateTime" : @"lastDeliveredDateTime"
              };
 }

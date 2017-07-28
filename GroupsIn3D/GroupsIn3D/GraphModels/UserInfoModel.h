@@ -22,7 +22,7 @@
 @property (nonatomic, copy, readonly) NSString *preferredLanguage;
 @property (nonatomic, copy, readonly) NSString *surname;
 @property (nonatomic, copy, readonly) NSString *userPrincipalName;
-
+@property (nonatomic) NSData *photo;
 @property (nonatomic) NSArray *userGroups;
 
 @end

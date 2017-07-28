@@ -27,6 +27,10 @@ const NSString *GET_USER_INFO_URL = @"https://graph.microsoft.com/v1.0/users/%@@
 const NSString *GET_USER_GROUPS_URL = @"https://graph.microsoft.com/v1.0/users/%@@microsoft.com/memberOf?$select=id,description,displayName,mail,classification,visibility,groupTypes&$top=999";
 const NSString *GET_USER_GROUP_MEMBERS_URL = @"https://graph.microsoft.com/v1.0/groups/%@/members?$top=3&$select=id,displayName,mail";
 const NSString *GET_USER_GROUP_CONVERSATIONS_URL = @"https://graph.microsoft.com/v1.0/groups/%@/conversations?$top=3";
+const NSString *GET_USER_PHOTO_URL = @"https://graph.microsoft.com/v1.0/users/%@@microsoft.com/photo/$value";
+
+const NSString *fontToUse = @"Helvetica-Bold";
+const float layerOpacity = .8f;
 
 @interface ARSceneViewController () <ARSCNViewDelegate, ARSessionDelegate>
 
@@ -34,6 +38,7 @@ const NSString *GET_USER_GROUP_CONVERSATIONS_URL = @"https://graph.microsoft.com
 @property (weak, nonatomic) IBOutlet UIVisualEffectView *messagePanel;
 @property (nonatomic) NSMutableArray *currentNodes;
 @property (nonatomic) UserInfoModel *currentUserInfoModel;
+@property (nonatomic) CGColorRef layerColor;
 @property (weak, nonatomic) IBOutlet UILabel *messageLabel;
 @property CGPoint screenCenter;
 
@@ -43,6 +48,7 @@ const NSString *GET_USER_GROUP_CONVERSATIONS_URL = @"https://graph.microsoft.com
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    _layerColor = [UIColor whiteColor].CGColor;
     _currentNodes = [NSMutableArray new];
     [self setupScene];
     
@@ -93,6 +99,7 @@ const NSString *GET_USER_GROUP_CONVERSATIONS_URL = @"https://graph.microsoft.com
     camera.minimumExposure = -1;
     
     ARWorldTrackingSessionConfiguration *configuration = [ARWorldTrackingSessionConfiguration new];
+    [configuration setPlaneDetection:ARPlaneDetectionHorizontal];
     [configuration setLightEstimationEnabled:YES];
     
     // Run the view's session
@@ -107,7 +114,6 @@ const NSString *GET_USER_GROUP_CONVERSATIONS_URL = @"https://graph.microsoft.com
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 -(UIImage *)imageFromSampleBuffer:(CVPixelBufferRef)sampleBuffer
@@ -142,48 +148,49 @@ const NSString *GET_USER_GROUP_CONVERSATIONS_URL = @"https://graph.microsoft.com
 
 -(void)createGroupNode:(int)groupNumber
 {
-	UserGroupModel *groupModel = [[_currentUserInfoModel userGroups] objectAtIndex:groupNumber];
-	
-	NSString *section1 = [NSString stringWithFormat:@"%@ (%@)\n%@\n\n", [groupModel displayName], [groupModel visibility], [_currentUserInfoModel mail]];
-	NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:section1 attributes:@{NSFontAttributeName: [UIFont fontWithName:@"Arial" size:8],
-																													NSForegroundColorAttributeName: [UIColor whiteColor]
-																													}];
-	
-	NSString *membersHeader = @"Members:\n\n";
-	[attrString appendAttributedString:[[NSMutableAttributedString alloc] initWithString:membersHeader attributes:@{NSFontAttributeName: [UIFont fontWithName:@"Arial" size:10],
-																												  NSForegroundColorAttributeName: [UIColor redColor],
-																												  NSUnderlineStyleAttributeName: @(NSUnderlineStyleSingle)}]];
-	
-	for (UserGroupMember *member in [groupModel members]) {
-		NSString *memberInfo = [NSString stringWithFormat:@"%@\n%@\n\n",[member displayName], [member mail]];
-		[attrString appendAttributedString:[[NSMutableAttributedString alloc] initWithString:memberInfo attributes:@{NSFontAttributeName: [UIFont fontWithName:@"Arial" size:8],
-																													NSForegroundColorAttributeName: [UIColor blueColor]}]];
-	}
-	
-	NSString *convsHeader = @"Conversations:\n\n";
-	[attrString appendAttributedString:[[NSMutableAttributedString alloc] initWithString:convsHeader attributes:@{NSFontAttributeName: [UIFont fontWithName:@"Arial" size:10],
-																												  NSForegroundColorAttributeName: [UIColor redColor],
-																												  NSUnderlineStyleAttributeName: @(NSUnderlineStyleSingle)}]];
-	
-	for (UserGroupConversation *conv in [groupModel conversations]) {
-		if(conv.senders.count > 0)
-		{
-			NSString *convInfo = [NSString stringWithFormat:@"%@\n%@\n%@\n\n",[conv topic], [conv lastDeliveredDateTime], [[conv senders] objectAtIndex:0]];
-			[attrString appendAttributedString:[[NSMutableAttributedString alloc] initWithString:convInfo attributes:@{NSFontAttributeName: [UIFont fontWithName:@"Arial" size:8],
-																														 NSForegroundColorAttributeName: [UIColor blueColor]}]];
-		}
-		else
-		{
-			NSString *convInfo = [NSString stringWithFormat:@"%@\n%@\n\n",[conv topic], [conv lastDeliveredDateTime]];
-			[attrString appendAttributedString:[[NSMutableAttributedString alloc] initWithString:convInfo attributes:@{NSFontAttributeName: [UIFont fontWithName:@"Arial" size:8],
-																													   NSForegroundColorAttributeName: [UIColor blueColor]}]];
-		}
-	}
-	
-	CGSize textSize = [attrString size];
+    UserGroupModel *groupModel = [[_currentUserInfoModel userGroups] objectAtIndex:groupNumber];
+
+    NSString *section1 = [NSString stringWithFormat:@"%@ (%@)\n%@\n\n", [groupModel displayName], [groupModel visibility], [[groupModel mail] stringByReplacingOccurrencesOfString:@"@" withString:@"_at_"]];
+    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:section1 attributes:@{NSFontAttributeName: [UIFont fontWithName:fontToUse size:8],
+                                                                                                                    NSForegroundColorAttributeName: [UIColor blackColor]
+                                                                                                                    }];
+
+    NSString *membersHeader = @"Members:\n\n";
+    [attrString appendAttributedString:[[NSMutableAttributedString alloc] initWithString:membersHeader attributes:@{NSFontAttributeName: [UIFont fontWithName:fontToUse size:10],
+                                                                                                                  NSForegroundColorAttributeName: [UIColor redColor],
+                                                                                                                  NSUnderlineStyleAttributeName: @(NSUnderlineStyleSingle)}]];
+
+    for (UserGroupMember *member in [groupModel members]) {
+        NSString *memberInfo = [NSString stringWithFormat:@"%@\n%@\n\n",[member displayName], [[member mail] stringByReplacingOccurrencesOfString:@"@" withString:@"_at_"]];
+        [attrString appendAttributedString:[[NSMutableAttributedString alloc] initWithString:memberInfo attributes:@{NSFontAttributeName: [UIFont fontWithName:fontToUse size:8],
+                                                                                                                    NSForegroundColorAttributeName: [UIColor blueColor]}]];
+    }
+
+    NSString *convsHeader = @"Conversations:\n\n";
+    [attrString appendAttributedString:[[NSMutableAttributedString alloc] initWithString:convsHeader attributes:@{NSFontAttributeName: [UIFont fontWithName:fontToUse size:10],
+                                                                                                                  NSForegroundColorAttributeName: [UIColor redColor],
+                                                                                                                  NSUnderlineStyleAttributeName: @(NSUnderlineStyleSingle)}]];
+
+    for (UserGroupConversation *conv in [groupModel conversations]) {
+        if(conv.senders.count > 0)
+        {
+            NSString *convInfo = [NSString stringWithFormat:@"%@\n%@\n%@\n\n",[conv topic], [conv lastDeliveredDateTime], [[conv senders] objectAtIndex:0]];
+            [attrString appendAttributedString:[[NSMutableAttributedString alloc] initWithString:convInfo attributes:@{NSFontAttributeName: [UIFont fontWithName:fontToUse size:8],
+                                                                                                                         NSForegroundColorAttributeName: [UIColor blueColor]}]];
+        }
+        else
+        {
+            NSString *convInfo = [NSString stringWithFormat:@"%@\n%@\n\n",[conv topic], [conv lastDeliveredDateTime]];
+            [attrString appendAttributedString:[[NSMutableAttributedString alloc] initWithString:convInfo attributes:@{NSFontAttributeName: [UIFont fontWithName:fontToUse size:8],
+                                                                                                                       NSForegroundColorAttributeName: [UIColor blueColor]}]];
+        }
+    }
+
+    CGSize textSize= [attrString size];
 	CALayer *layer = [CALayer new];
-	[layer setFrame:CGRectMake(0, 0, textSize.width, textSize.height)];
-	[layer setBackgroundColor:[UIColor clearColor].CGColor];
+	[layer setFrame:CGRectMake(10, 0, textSize.width, textSize.height)];
+	[layer setBackgroundColor:_layerColor];
+    [layer setOpacity:layerOpacity];
 	
 	CATextLayer *textLayer = [CATextLayer new];
 	[textLayer setFrame:[layer bounds]];
@@ -193,40 +200,40 @@ const NSString *GET_USER_GROUP_CONVERSATIONS_URL = @"https://graph.microsoft.com
 	[textLayer display];
 	[layer addSublayer:textLayer];
 	
-	SCNBox *box = [SCNBox boxWithWidth:8 height:12 length:0.005 chamferRadius:0.0];
+	SCNBox *box = [SCNBox boxWithWidth:8 height:14 length:0.005 chamferRadius:0.0];
 	[[[box firstMaterial] diffuse] setContents:layer];
 	SCNNode *node = [SCNNode nodeWithGeometry:box];
 	[node setName:[NSString stringWithFormat:@"GROUPNODE%d", groupNumber]];
 	
-	[node setPosition:SCNVector3Make(-0.5, -2, -12.0)];
-	//    [node setPosition:position];
+    [node setPosition:SCNVector3Make(-0.5, -2, -15.0)];
 	[[[[self sceneView] scene] rootNode] addChildNode:node];
 	
 	[_currentNodes addObject:node];
 }
 
--(void)addObjectForUser:(UserInfoModel *)model andPosition:(SCNVector3)position
+-(void)addObjectForUser:(UserInfoModel *)model
 {
-	NSString *section1 = [NSString stringWithFormat:@"%@\n%@\n%@\n\n", [model displayName], [model jobTitle], [model mail]];
-    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:section1 attributes:@{NSFontAttributeName: [UIFont fontWithName:@"Arial" size:8],
-                                                                                                                                      NSForegroundColorAttributeName: [UIColor whiteColor]
+    NSString *section1 = [NSString stringWithFormat:@"%@\n%@\n%@\n\n", [model displayName], [model jobTitle], [[model mail] stringByReplacingOccurrencesOfString:@"@" withString:@"_at_"]];
+    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:section1 attributes:@{NSFontAttributeName: [UIFont fontWithName:fontToUse size:8],
+                                                                                                                                      NSForegroundColorAttributeName: [UIColor blackColor]
                                                                                                                                       }];
-	
-	NSString *groupHeader = @"Groups:\n\n";
-    [attrString appendAttributedString:[[NSMutableAttributedString alloc] initWithString:groupHeader attributes:@{NSFontAttributeName: [UIFont fontWithName:@"Arial" size:10],
+
+    NSString *groupHeader = @"Groups:\n\n";
+    [attrString appendAttributedString:[[NSMutableAttributedString alloc] initWithString:groupHeader attributes:@{NSFontAttributeName: [UIFont fontWithName:fontToUse size:10],
                                                                                                                      NSForegroundColorAttributeName: [UIColor redColor],
                                                                                                                      NSUnderlineStyleAttributeName: @(NSUnderlineStyleSingle)}]];
-	
-	for (UserGroupModel *group in [model userGroups]) {
-		NSString *groupInfo = [NSString stringWithFormat:@"%@ (%@)\n%@\n\n",[group displayName], [group visibility], [group mail]];
-		[attrString appendAttributedString:[[NSMutableAttributedString alloc] initWithString:groupInfo attributes:@{NSFontAttributeName: [UIFont fontWithName:@"Arial" size:8],
-																													  NSForegroundColorAttributeName: [UIColor blueColor]}]];
-	}
 
+    for (UserGroupModel *group in [model userGroups]) {
+        NSString *groupInfo = [NSString stringWithFormat:@"%@ (%@)\n%@\n\n",[group displayName], [group visibility], [[group mail] stringByReplacingOccurrencesOfString:@"@" withString:@"_at_"]];
+        [attrString appendAttributedString:[[NSMutableAttributedString alloc] initWithString:groupInfo attributes:@{NSFontAttributeName: [UIFont fontWithName:fontToUse size:8],
+                                                                                                                      NSForegroundColorAttributeName: [UIColor blueColor]}]];
+    }
+    
 	CGSize textSize = [attrString size];
 	CALayer *layer = [CALayer new];
-	[layer setFrame:CGRectMake(0, 0, textSize.width, textSize.height)];
-	[layer setBackgroundColor:[UIColor clearColor].CGColor];
+	[layer setFrame:CGRectMake(10, 0, textSize.width, textSize.height)];
+	[layer setBackgroundColor:_layerColor];
+    [layer setOpacity:layerOpacity];
 	
 	CATextLayer *textLayer = [CATextLayer new];
 	[textLayer setFrame:[layer bounds]];
@@ -241,8 +248,7 @@ const NSString *GET_USER_GROUP_CONVERSATIONS_URL = @"https://graph.microsoft.com
     SCNNode *node = [SCNNode nodeWithGeometry:box];
 	[node setName:@"USERINFONODE"];
 	
-    [node setPosition:SCNVector3Make(-0.5, -2, -12.0)];
-//    [node setPosition:position];
+    [node setPosition:SCNVector3Make(-0.5, -2, -15.0)];
     [[[[self sceneView] scene] rootNode] addChildNode:node];
     
     [_currentNodes addObject:node];
@@ -257,33 +263,31 @@ const NSString *GET_USER_GROUP_CONVERSATIONS_URL = @"https://graph.microsoft.com
 }
 
 - (void)insertCubeFrom: (UITapGestureRecognizer *)recognizer {
-	if(_currentNodes.count == 1)
+    if(_currentNodes.count == 1)
 	{
 		SCNNode *node = [_currentNodes objectAtIndex:0];
-		[node removeFromParentNode];
-		if([[node name] isEqualToString:@"USERINFONODE"] && [[_currentUserInfoModel userGroups] count] > 0)
+		[self clearNodes];
+        if([[node name] isEqualToString:@"USERINFONODE"] && [[_currentUserInfoModel userGroups] count] > 0)
 		{
 			[self createGroupNode:0];
 			return;
 		}
-		else if([[node name] isEqualToString:@"GROUPNODE0"] && [[_currentUserInfoModel userGroups] count] > 1)
-		{
-			[self createGroupNode:1];
-			return;
-		}
-		else if([[node name] isEqualToString:@"GROUPNODE1"] && [[_currentUserInfoModel userGroups] count] > 2)
-		{
-			[self createGroupNode:2];
-			return;
-		}
-	}
-	
-	[self clearNodes];
-	
-    SCNVector3 scenePoint = [self getSCNVector:[recognizer locationInView:self.sceneView]];
-//    [self insertCube:scenePoint andUserInfoModel:nil];
-//    return;
-	
+        else if([[node name] isEqualToString:@"GROUPNODE0"] && [[_currentUserInfoModel userGroups] count] > 1)
+        {
+            [self createGroupNode:1];
+            return;
+        }
+        else if([[node name] isEqualToString:@"GROUPNODE1"] && [[_currentUserInfoModel userGroups] count] > 2)
+        {
+            [self createGroupNode:2];
+            return;
+        }
+        else if([[node name] isEqualToString:@"GROUPNODE2"])
+        {
+            return;
+        }
+    }
+		
 	_currentUserInfoModel = nil;
 //    UIImage *image = [self imageFromSampleBuffer:self.sceneView.session.currentFrame.capturedImage];
     UIImage *image = [UIImage imageNamed:@"arjun.jpg"];
@@ -293,18 +297,38 @@ const NSString *GET_USER_GROUP_CONVERSATIONS_URL = @"https://graph.microsoft.com
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_async(queue, ^{
         MPOFaceServiceClient *faceClient = [[MPOFaceServiceClient alloc] initWithEndpointAndSubscriptionKey:ProjectOxfordFaceEndpoint key:ProjectOxfordFaceSubscriptionKey];
-        //        [faceClient listPersonGroupsWithCompletion:^(NSArray<MPOPersonGroup *> *collection, NSError *error) {
-        //            NSLog(@"");
-        //        }];
-        
         NSData *data = UIImageJPEGRepresentation(image, 0.8);
         [faceClient detectWithData:data returnFaceId:YES returnFaceLandmarks:YES returnFaceAttributes:@[] completionBlock:^(NSArray<MPOFace *> *collection, NSError *error) {
+            if(!collection || !collection.count)
+            {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [[self messageLabel] setText:@"Unable to Identify user, may be get closer and try again."];
+                });
+                
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 3 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+                    self.messagePanel.hidden = YES;
+                    [self.view layoutSubviews];
+                });
+            }
+            
             NSMutableArray *faceIds = [NSMutableArray new];
             for (MPOFace *face in collection)
                 [faceIds addObject:face.faceId];
             
             [faceClient identifyWithPersonGroupId:@"705d8839-3850-45ad-b85a-bddebfd90199" faceIds:faceIds maxNumberOfCandidates:1 completionBlock:^(NSArray<MPOIdentifyResult *> *collection, NSError *error) {
                 NSString *alias = @"";
+                if(!collection || !collection.count)
+                {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [[self messageLabel] setText:@"Unable to Identify user, may be get closer and try again."];
+                    });
+                    
+                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 3 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+                        self.messagePanel.hidden = YES;
+                        [self.view layoutSubviews];
+                    });
+                }
+                
                 for (MPOIdentifyResult *result in collection) {
                     for (MPOCandidate *candidate in result.candidates) {
                         NSString *id = [candidate personId];
@@ -328,7 +352,7 @@ const NSString *GET_USER_GROUP_CONVERSATIONS_URL = @"https://graph.microsoft.com
                             UserInfoModel *userInfo = model;
 							_currentUserInfoModel = userInfo;
                             dispatch_async(dispatch_get_main_queue(), ^{
-                                [self ProcessUIForUserInfo:userInfo andHitResult:scenePoint];
+                                [self ProcessUIForUserInfo:userInfo];
                             });
                         }];
                     }
@@ -349,40 +373,16 @@ const NSString *GET_USER_GROUP_CONVERSATIONS_URL = @"https://graph.microsoft.com
     });
 }
 
-- (void)insertCube:(SCNVector3)position andUserInfoModel:(UserInfoModel *)userInfoModel {
-    [self addObjectForUser:userInfoModel andPosition:position];
+- (void)insertCubeForuser:(UserInfoModel *)userInfoModel {
+    [self addObjectForUser:userInfoModel];
 }
 
--(void)ProcessUIForUserInfo:(UserInfoModel *)userInfoModel andHitResult:(SCNVector3)position
+-(void)ProcessUIForUserInfo:(UserInfoModel *)userInfoModel
 {
     [[self messageLabel] setText:[NSString stringWithFormat:@"Data Loaded for %@", [userInfoModel displayName]]];
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 3 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-        self.messagePanel.hidden = YES;
-        [self.view layoutSubviews];
-    });
-    
-    [self insertCube:position andUserInfoModel:userInfoModel];
-    
-    if(userInfoModel)
-    {
-        NSLog(@"USER DISPLAY NAME: %@", [userInfoModel displayName]);
-        NSLog(@"USER GROUPS COUNT: %lu", [[userInfoModel userGroups] count]);
-        for (UserGroupModel *group in [userInfoModel userGroups]) {
-            NSLog(@"================================================================================");
-            NSLog(@"USER GROUPS NAME: %@", [group displayName]);
-            NSLog(@"USER GROUPS MEMBERS COUNT: %lu", [[group members] count]);
-            NSLog(@"USER GROUPS CONVERSATIONS COUNT: %lu", [[group conversations] count]);
-            for (UserGroupMember *member in [group members]) {
-                NSLog(@"USER GROUP MEMBER NAME: %@", [member displayName]);
-            }
-            
-            for (UserGroupConversation *conversation in [group conversations]) {
-                NSLog(@"USER GROUP MEMBER CONVERSATION: %@", [conversation topic]);
-            }
-            
-            NSLog(@"================================================================================\n\n\n");
-        }
-    }
+    self.messagePanel.hidden = YES;
+    [self.view layoutSubviews];        
+    [self insertCubeForuser:userInfoModel];
 }
 
 -(void)processAlias:(NSString *)alias andCompletionHandler:(void(^)(id))completionHandler
@@ -422,28 +422,36 @@ const NSString *GET_USER_GROUP_CONVERSATIONS_URL = @"https://graph.microsoft.com
                     userInfoModel.userGroups = eligibleGroups;
                     
                     dispatch_async(dispatch_get_main_queue(), ^{
-                        [[self messageLabel] setText:[NSString stringWithFormat:@"Getting Group members and conversations for groups for %@", alias]];
+                        [[self messageLabel] setText:[NSString stringWithFormat:@"Getting photo for %@", alias]];
                     });
                     
-                    for (UserGroupModel *group in userInfoModel.userGroups) {
-                        [self runGraphRequest:[NSString stringWithFormat:GET_USER_GROUP_MEMBERS_URL, [group id]] andClass:[UserGroupMembers class] andIsSync:YES andAccessToken:accessToken andRequestCompletionHandler:^(id model) {
-                            if(model)
-                            {
-                                UserGroupMembers *members = model;
-                                group.members = members.value;
-                                
-                                [self runGraphRequest:[NSString stringWithFormat:GET_USER_GROUP_CONVERSATIONS_URL, [group id]] andClass:[UserGroupConversations class] andIsSync:YES andAccessToken:accessToken andRequestCompletionHandler:^(id model) {
-                                    if(model)
-                                    {
-                                        UserGroupConversations *conversations = model;
-                                        group.conversations = conversations.value;
-                                    }
-                                }];
-                            }
-                        }];
-                    }
-                    
-                    completionHandler(userInfoModel);
+                    [self runGraphRequest:[NSString stringWithFormat:GET_USER_PHOTO_URL, alias] andClass:[NSData class] andIsSync:YES andAccessToken:accessToken andRequestCompletionHandler:^(id model) {
+                        userInfoModel.photo = model;
+                        
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [[self messageLabel] setText:[NSString stringWithFormat:@"Getting Group members and conversations for groups for %@", alias]];
+                        });
+                        
+                        for (UserGroupModel *group in userInfoModel.userGroups) {
+                            [self runGraphRequest:[NSString stringWithFormat:GET_USER_GROUP_MEMBERS_URL, [group id]] andClass:[UserGroupMembers class] andIsSync:YES andAccessToken:accessToken andRequestCompletionHandler:^(id model) {
+                                if(model)
+                                {
+                                    UserGroupMembers *members = model;
+                                    group.members = members.value;
+                                    
+                                    [self runGraphRequest:[NSString stringWithFormat:GET_USER_GROUP_CONVERSATIONS_URL, [group id]] andClass:[UserGroupConversations class] andIsSync:YES andAccessToken:accessToken andRequestCompletionHandler:^(id model) {
+                                        if(model)
+                                        {
+                                            UserGroupConversations *conversations = model;
+                                            group.conversations = conversations.value;
+                                        }
+                                    }];
+                                }
+                            }];
+                        }
+                        
+                        completionHandler(userInfoModel);
+                    }];
                 }
                 else
                     completionHandler(userInfoModel);
@@ -466,21 +474,28 @@ const NSString *GET_USER_GROUP_CONVERSATIONS_URL = @"https://graph.microsoft.com
         if(!data)
             requestCompletionHandler(nil);
         
-        NSError *jsonError;
-        NSDictionary *values = [NSJSONSerialization JSONObjectWithData:data
-                                                               options:kNilOptions
-                                                                 error:&jsonError];
-        if(!jsonError)
+        if([class isEqual:[NSData class]])
         {
-            NSError *mantleError;
-            id model = [MTLJSONAdapter modelOfClass:class fromJSONDictionary:values error:&mantleError];
-            if(mantleError)
-                requestCompletionHandler(nil);
-            else
-                requestCompletionHandler(model);
+            requestCompletionHandler(data);
         }
         else
-            requestCompletionHandler(nil);
+        {
+            NSError *jsonError;
+            NSDictionary *values = [NSJSONSerialization JSONObjectWithData:data
+                                                                   options:kNilOptions
+                                                                     error:&jsonError];
+            if(!jsonError)
+            {
+                NSError *mantleError;
+                id model = [MTLJSONAdapter modelOfClass:class fromJSONDictionary:values error:&mantleError];
+                if(mantleError)
+                    requestCompletionHandler(nil);
+                else
+                    requestCompletionHandler(model);
+            }
+            else
+                requestCompletionHandler(nil);
+        }
     }
     else
     {
@@ -492,21 +507,28 @@ const NSString *GET_USER_GROUP_CONVERSATIONS_URL = @"https://graph.microsoft.com
              if(!data)
                  requestCompletionHandler(nil);
              
-             NSError *jsonError;
-             NSDictionary *values = [NSJSONSerialization JSONObjectWithData:data
-                                                                    options:kNilOptions
-                                                                      error:&jsonError];
-             if(!jsonError)
+             if([class isEqual:[NSData class]])
              {
-                 NSError *mantleError;
-                 id model = [MTLJSONAdapter modelOfClass:class fromJSONDictionary:values error:&mantleError];
-                 if(mantleError)
-                     requestCompletionHandler(nil);
-                 else
-                     requestCompletionHandler(model);
+                 requestCompletionHandler(data);
              }
              else
-                 requestCompletionHandler(nil);
+             {
+                 NSError *jsonError;
+                 NSDictionary *values = [NSJSONSerialization JSONObjectWithData:data
+                                                                        options:kNilOptions
+                                                                          error:&jsonError];
+                 if(!jsonError)
+                 {
+                     NSError *mantleError;
+                     id model = [MTLJSONAdapter modelOfClass:class fromJSONDictionary:values error:&mantleError];
+                     if(mantleError)
+                         requestCompletionHandler(nil);
+                     else
+                         requestCompletionHandler(model);
+                 }
+                 else
+                     requestCompletionHandler(nil);
+             }
          }];
     }
 }

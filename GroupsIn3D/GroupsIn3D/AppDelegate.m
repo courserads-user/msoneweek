@@ -7,6 +7,11 @@
 //
 
 #import "AppDelegate.h"
+#import "ARSceneViewController.h"
+#import "UserAuthenticationViewController.h"
+#import <ProjectOxfordFace/ProjectOxfordFace-umbrella.h>
+#import "Constants.h"
+#import "GLOBALS.h"
 
 @interface AppDelegate ()
 
@@ -16,7 +21,38 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
+    MPOFaceServiceClient *faceClient = [[MPOFaceServiceClient alloc] initWithEndpointAndSubscriptionKey:ProjectOxfordFaceEndpoint key:ProjectOxfordFaceSubscriptionKey];
+    [faceClient listPersonsWithPersonGroupId:@"705d8839-3850-45ad-b85a-bddebfd90199" completionBlock:^(NSArray<MPOPerson *> *collection, NSError *error) {
+        for (MPOPerson *person in collection) {
+            [[[GLOBALS sharedInstance] persons] addObject:person];
+        }
+    }];
+    
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    if([[[userDefaults dictionaryRepresentation] allKeys] containsObject:@"USERID"])
+    {
+        NSString *userId = [userDefaults stringForKey:@"USERID"];
+        if(![userId isEqualToString:@""])
+        {
+            UIStoryboard * sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+            //            ViewController *mainVC = [sb instantiateViewControllerWithIdentifier:@"arscenevc"]; // arscenevc facedetectvc
+            //            [self.navigationController pushViewController:mainVC animated:YES];
+            
+            ARSceneViewController *mainVC = [sb instantiateViewControllerWithIdentifier:@"newarscene"]; // arscenevc facedetectvc
+            self.window.rootViewController = mainVC;
+            [self.window makeKeyAndVisible];
+            return YES;
+        }
+    }
+    
+    UIStoryboard * sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    //            ViewController *mainVC = [sb instantiateViewControllerWithIdentifier:@"arscenevc"]; // arscenevc facedetectvc
+    //            [self.navigationController pushViewController:mainVC animated:YES];
+    
+    UserAuthenticationViewController *authVC = [sb instantiateViewControllerWithIdentifier:@"userauth"]; // arscenevc facedetectvc
+    self.window.rootViewController = authVC;
+    [self.window makeKeyAndVisible];
+    
     return YES;
 }
 

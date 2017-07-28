@@ -84,13 +84,6 @@
             [userDefaults setObject:userId forKey:@"USERID"];
             [userDefaults synchronize];
             
-            MPOFaceServiceClient *faceClient = [[MPOFaceServiceClient alloc] initWithEndpointAndSubscriptionKey:ProjectOxfordFaceEndpoint key:ProjectOxfordFaceSubscriptionKey];
-            [faceClient listPersonsWithPersonGroupId:@"705d8839-3850-45ad-b85a-bddebfd90199" completionBlock:^(NSArray<MPOPerson *> *collection, NSError *error) {
-                for (MPOPerson *person in collection) {
-                    [[[GLOBALS sharedInstance] persons] addObject:person];
-                }
-            }];
-            
             UIStoryboard * sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
 //            ViewController *mainVC = [sb instantiateViewControllerWithIdentifier:@"arscenevc"]; // arscenevc facedetectvc
 //            [self.navigationController pushViewController:mainVC animated:YES];

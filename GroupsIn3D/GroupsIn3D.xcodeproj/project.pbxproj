@@ -82,6 +82,7 @@
 		2D2D2CCA1F26704A002201BE /* GroupsIn3DUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GroupsIn3DUITests.m; sourceTree = "<group>"; };
 		2D2D2CCC1F26704A002201BE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2D2D2CD81F267124002201BE /* Podfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		2D50FB4D1F2BBBB700C6D57B /* jim.JPG */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = jim.JPG; sourceTree = "<group>"; };
 		2D76D3F81F268F07000F027E /* GroupsIn3D.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = GroupsIn3D.entitlements; sourceTree = "<group>"; };
 		2D76D3FA1F268F5B000F027E /* ADALAuthenticationHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ADALAuthenticationHandler.h; sourceTree = "<group>"; };
 		2D76D3FB1F268F5B000F027E /* ADALAuthenticationHandler.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ADALAuthenticationHandler.m; sourceTree = "<group>"; };
@@ -215,6 +216,7 @@
 		2D2D2CA31F267049002201BE /* GroupsIn3D */ = {
 			isa = PBXGroup;
 			children = (
+				2D50FB4D1F2BBBB700C6D57B /* jim.JPG */,
 				2DF175AB1F2961FF005275FE /* New Group */,
 				2D76D4881F295D55000F027E /* cover20x20.png */,
 				2D76D48C1F295D55000F027E /* cover29x29.png */,
