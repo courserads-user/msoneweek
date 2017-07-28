@@ -25,14 +25,15 @@
 
 const NSString *GET_USER_INFO_URL = @"https://graph.microsoft.com/v1.0/users/%@@microsoft.com?$select=id,businessPhones,displayName,givenName,jobTitle,mail,mobilePhone,officeLocation,preferredLanguage,surname,userPrincipalName";
 const NSString *GET_USER_GROUPS_URL = @"https://graph.microsoft.com/v1.0/users/%@@microsoft.com/memberOf?$select=id,description,displayName,mail,classification,visibility,groupTypes&$top=999";
-const NSString *GET_USER_GROUP_MEMBERS_URL = @"https://graph.microsoft.com/v1.0/groups/%@/members?$top=5&$select=id,displayName,mail";
-const NSString *GET_USER_GROUP_CONVERSATIONS_URL = @"https://graph.microsoft.com/v1.0/groups/%@/conversations?$top=5";
+const NSString *GET_USER_GROUP_MEMBERS_URL = @"https://graph.microsoft.com/v1.0/groups/%@/members?$top=3&$select=id,displayName,mail";
+const NSString *GET_USER_GROUP_CONVERSATIONS_URL = @"https://graph.microsoft.com/v1.0/groups/%@/conversations?$top=3";
 
 @interface ARSceneViewController () <ARSCNViewDelegate, ARSessionDelegate>
 
 @property (weak, nonatomic) IBOutlet ARSCNView *sceneView;
 @property (weak, nonatomic) IBOutlet UIVisualEffectView *messagePanel;
 @property (nonatomic) NSMutableArray *currentNodes;
+@property (nonatomic) UserInfoModel *currentUserInfoModel;
 @property (weak, nonatomic) IBOutlet UILabel *messageLabel;
 @property CGPoint screenCenter;
 
@@ -125,67 +126,122 @@ const NSString *GET_USER_GROUP_CONVERSATIONS_URL = @"https://graph.microsoft.com
     return returnVal;
 }
 
--(UIImage *)imageFromText:(NSString *)text
+-(void)clearNodes
 {
-    CGRect imageRect = CGRectMake(0, 0, 1024, 1024);
-    UIGraphicsBeginImageContext(CGSizeMake(1024, 1024));
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    CGContextSetFillColorWithColor(context, [UIColor redColor].CGColor);
-    CGContextFillRect(context, imageRect);
-    NSMutableParagraphStyle *paragraphStyle = [NSMutableParagraphStyle new];
-    [paragraphStyle setAlignment:NSTextAlignmentCenter];
-    NSDictionary *attributes = @{NSFontAttributeName:[UIFont fontWithName:@"Arial" size:50],
-                                 NSParagraphStyleAttributeName: paragraphStyle,
-                                 NSForegroundColorAttributeName: [UIColor blackColor]
-                                 };
-    
-    CGSize textSize = [text sizeWithAttributes:attributes];
-    [text drawAtPoint:CGPointMake(1024/2-textSize.width/2, 1024/2-textSize.height/2) withAttributes:attributes];
-    UIImage *returnImage = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    
-    return returnImage;
+	if(_currentNodes.count > 0)
+	{
+		for (SCNNode *scnnode in _currentNodes) {
+			[scnnode removeFromParentNode];
+		}
+		
+		[_currentNodes removeAllObjects];
+		
+		return;
+	}
+}
+
+-(void)createGroupNode:(int)groupNumber
+{
+	UserGroupModel *groupModel = [[_currentUserInfoModel userGroups] objectAtIndex:groupNumber];
+	
+	NSString *section1 = [NSString stringWithFormat:@"%@ (%@)\n%@\n\n", [groupModel displayName], [groupModel visibility], [_currentUserInfoModel mail]];
+	NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:section1 attributes:@{NSFontAttributeName: [UIFont fontWithName:@"Arial" size:8],
+																													NSForegroundColorAttributeName: [UIColor whiteColor]
+																													}];
+	
+	NSString *membersHeader = @"Members:\n\n";
+	[attrString appendAttributedString:[[NSMutableAttributedString alloc] initWithString:membersHeader attributes:@{NSFontAttributeName: [UIFont fontWithName:@"Arial" size:10],
+																												  NSForegroundColorAttributeName: [UIColor redColor],
+																												  NSUnderlineStyleAttributeName: @(NSUnderlineStyleSingle)}]];
+	
+	for (UserGroupMember *member in [groupModel members]) {
+		NSString *memberInfo = [NSString stringWithFormat:@"%@\n%@\n\n",[member displayName], [member mail]];
+		[attrString appendAttributedString:[[NSMutableAttributedString alloc] initWithString:memberInfo attributes:@{NSFontAttributeName: [UIFont fontWithName:@"Arial" size:8],
+																													NSForegroundColorAttributeName: [UIColor blueColor]}]];
+	}
+	
+	NSString *convsHeader = @"Conversations:\n\n";
+	[attrString appendAttributedString:[[NSMutableAttributedString alloc] initWithString:convsHeader attributes:@{NSFontAttributeName: [UIFont fontWithName:@"Arial" size:10],
+																												  NSForegroundColorAttributeName: [UIColor redColor],
+																												  NSUnderlineStyleAttributeName: @(NSUnderlineStyleSingle)}]];
+	
+	for (UserGroupConversation *conv in [groupModel conversations]) {
+		if(conv.senders.count > 0)
+		{
+			NSString *convInfo = [NSString stringWithFormat:@"%@\n%@\n%@\n\n",[conv topic], [conv lastDeliveredDateTime], [[conv senders] objectAtIndex:0]];
+			[attrString appendAttributedString:[[NSMutableAttributedString alloc] initWithString:convInfo attributes:@{NSFontAttributeName: [UIFont fontWithName:@"Arial" size:8],
+																														 NSForegroundColorAttributeName: [UIColor blueColor]}]];
+		}
+		else
+		{
+			NSString *convInfo = [NSString stringWithFormat:@"%@\n%@\n\n",[conv topic], [conv lastDeliveredDateTime]];
+			[attrString appendAttributedString:[[NSMutableAttributedString alloc] initWithString:convInfo attributes:@{NSFontAttributeName: [UIFont fontWithName:@"Arial" size:8],
+																													   NSForegroundColorAttributeName: [UIColor blueColor]}]];
+		}
+	}
+	
+	CGSize textSize = [attrString size];
+	CALayer *layer = [CALayer new];
+	[layer setFrame:CGRectMake(0, 0, textSize.width, textSize.height)];
+	[layer setBackgroundColor:[UIColor clearColor].CGColor];
+	
+	CATextLayer *textLayer = [CATextLayer new];
+	[textLayer setFrame:[layer bounds]];
+	
+	[textLayer setString:attrString];
+	[textLayer setAlignmentMode:kCAAlignmentLeft];
+	[textLayer display];
+	[layer addSublayer:textLayer];
+	
+	SCNBox *box = [SCNBox boxWithWidth:8 height:12 length:0.005 chamferRadius:0.0];
+	[[[box firstMaterial] diffuse] setContents:layer];
+	SCNNode *node = [SCNNode nodeWithGeometry:box];
+	[node setName:[NSString stringWithFormat:@"GROUPNODE%d", groupNumber]];
+	
+	[node setPosition:SCNVector3Make(-0.5, -2, -12.0)];
+	//    [node setPosition:position];
+	[[[[self sceneView] scene] rootNode] addChildNode:node];
+	
+	[_currentNodes addObject:node];
 }
 
 -(void)addObjectForUser:(UserInfoModel *)model andPosition:(SCNVector3)position
 {
-    if(_currentNodes.count > 0)
-    {
-        for (SCNNode *scnnode in _currentNodes) {
-            [scnnode removeFromParentNode];
-        }
-    
-        [_currentNodes removeAllObjects];
-        
-        return;
-    }
-    
-    CALayer *layer = [CALayer new];
-    [layer setFrame:CGRectMake(0, 0, 100, 100)];
-    [layer setBackgroundColor:[UIColor blackColor].CGColor];
-    
-    CATextLayer *textLayer = [CATextLayer new];
-    [textLayer setFrame:[layer bounds]];
-    [textLayer setFontSize:10];
-    
-    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:@"Presenting The Great...\n" attributes:@{NSFontAttributeName: [UIFont fontWithName:@"Arial" size:10],
+	NSString *section1 = [NSString stringWithFormat:@"%@\n%@\n%@\n\n", [model displayName], [model jobTitle], [model mail]];
+    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:section1 attributes:@{NSFontAttributeName: [UIFont fontWithName:@"Arial" size:8],
                                                                                                                                       NSForegroundColorAttributeName: [UIColor whiteColor]
                                                                                                                                       }];
-    [attrString appendAttributedString:[[NSMutableAttributedString alloc] initWithString:@"HULK HOGAN!" attributes:@{NSFontAttributeName: [UIFont fontWithName:@"Arial" size:10],
-                                                                                                                     NSForegroundColorAttributeName: [UIColor whiteColor],
+	
+	NSString *groupHeader = @"Groups:\n\n";
+    [attrString appendAttributedString:[[NSMutableAttributedString alloc] initWithString:groupHeader attributes:@{NSFontAttributeName: [UIFont fontWithName:@"Arial" size:10],
+                                                                                                                     NSForegroundColorAttributeName: [UIColor redColor],
                                                                                                                      NSUnderlineStyleAttributeName: @(NSUnderlineStyleSingle)}]];
-    
+	
+	for (UserGroupModel *group in [model userGroups]) {
+		NSString *groupInfo = [NSString stringWithFormat:@"%@ (%@)\n%@\n\n",[group displayName], [group visibility], [group mail]];
+		[attrString appendAttributedString:[[NSMutableAttributedString alloc] initWithString:groupInfo attributes:@{NSFontAttributeName: [UIFont fontWithName:@"Arial" size:8],
+																													  NSForegroundColorAttributeName: [UIColor blueColor]}]];
+	}
+
+	CGSize textSize = [attrString size];
+	CALayer *layer = [CALayer new];
+	[layer setFrame:CGRectMake(0, 0, textSize.width, textSize.height)];
+	[layer setBackgroundColor:[UIColor clearColor].CGColor];
+	
+	CATextLayer *textLayer = [CATextLayer new];
+	[textLayer setFrame:[layer bounds]];
+	
     [textLayer setString:attrString];
     [textLayer setAlignmentMode:kCAAlignmentLeft];
-    [textLayer setForegroundColor:[UIColor whiteColor].CGColor];
     [textLayer display];
     [layer addSublayer:textLayer];
     
-    SCNBox *box = [SCNBox boxWithWidth:4 height:2 length:0.005 chamferRadius:0.0];
+    SCNBox *box = [SCNBox boxWithWidth:8 height:12 length:0.005 chamferRadius:0.0];
     [[[box firstMaterial] diffuse] setContents:layer];
     SCNNode *node = [SCNNode nodeWithGeometry:box];
-    
-    [node setPosition:SCNVector3Make(-1, 0, -12.0)];
+	[node setName:@"USERINFONODE"];
+	
+    [node setPosition:SCNVector3Make(-0.5, -2, -12.0)];
 //    [node setPosition:position];
     [[[[self sceneView] scene] rootNode] addChildNode:node];
     
@@ -201,10 +257,34 @@ const NSString *GET_USER_GROUP_CONVERSATIONS_URL = @"https://graph.microsoft.com
 }
 
 - (void)insertCubeFrom: (UITapGestureRecognizer *)recognizer {
+	if(_currentNodes.count == 1)
+	{
+		SCNNode *node = [_currentNodes objectAtIndex:0];
+		[node removeFromParentNode];
+		if([[node name] isEqualToString:@"USERINFONODE"] && [[_currentUserInfoModel userGroups] count] > 0)
+		{
+			[self createGroupNode:0];
+			return;
+		}
+		else if([[node name] isEqualToString:@"GROUPNODE0"] && [[_currentUserInfoModel userGroups] count] > 1)
+		{
+			[self createGroupNode:1];
+			return;
+		}
+		else if([[node name] isEqualToString:@"GROUPNODE1"] && [[_currentUserInfoModel userGroups] count] > 2)
+		{
+			[self createGroupNode:2];
+			return;
+		}
+	}
+	
+	[self clearNodes];
+	
     SCNVector3 scenePoint = [self getSCNVector:[recognizer locationInView:self.sceneView]];
-    [self insertCube:scenePoint andUserInfoModel:nil];
-    return;
-    
+//    [self insertCube:scenePoint andUserInfoModel:nil];
+//    return;
+	
+	_currentUserInfoModel = nil;
 //    UIImage *image = [self imageFromSampleBuffer:self.sceneView.session.currentFrame.capturedImage];
     UIImage *image = [UIImage imageNamed:@"arjun.jpg"];
     self.messagePanel.hidden = NO;
@@ -246,6 +326,7 @@ const NSString *GET_USER_GROUP_CONVERSATIONS_URL = @"https://graph.microsoft.com
                         
                         [self processAlias:alias andCompletionHandler:^(id model) {
                             UserInfoModel *userInfo = model;
+							_currentUserInfoModel = userInfo;
                             dispatch_async(dispatch_get_main_queue(), ^{
                                 [self ProcessUIForUserInfo:userInfo andHitResult:scenePoint];
                             });
@@ -269,86 +350,8 @@ const NSString *GET_USER_GROUP_CONVERSATIONS_URL = @"https://graph.microsoft.com
 }
 
 - (void)insertCube:(SCNVector3)position andUserInfoModel:(UserInfoModel *)userInfoModel {
-//    // We insert the geometry slightly above the point the user tapped, so that it drops onto the plane
-//    // using the physics engine
-//    float insertionYOffset = 0.5;
-//    SCNVector3 position = SCNVector3Make(
-//                                         hitResult.worldTransform.columns[3].x,
-//                                         hitResult.worldTransform.columns[3].y + insertionYOffset,
-//                                         hitResult.worldTransform.columns[3].z
-//                                         );
-    
-    
     [self addObjectForUser:userInfoModel andPosition:position];
 }
-
-//-(void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
-//{
-//    [self addObjectForUser:nil];
-//    return;
-//
-//    UIImage *image = [self imageFromSampleBuffer:self.sceneView.session.currentFrame.capturedImage];
-//    image = [UIImage imageNamed:@"arjun.jpg"];
-//    self.messagePanel.hidden = NO;
-//    [self.view layoutSubviews];
-//    [[self messageLabel] setText:@"Identifying Person..."];
-//    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-//    dispatch_async(queue, ^{
-//        MPOFaceServiceClient *faceClient = [[MPOFaceServiceClient alloc] initWithEndpointAndSubscriptionKey:ProjectOxfordFaceEndpoint key:ProjectOxfordFaceSubscriptionKey];
-//        //        [faceClient listPersonGroupsWithCompletion:^(NSArray<MPOPersonGroup *> *collection, NSError *error) {
-//        //            NSLog(@"");
-//        //        }];
-//
-//        NSData *data = UIImageJPEGRepresentation(image, 0.8);
-//        [faceClient detectWithData:data returnFaceId:YES returnFaceLandmarks:YES returnFaceAttributes:@[] completionBlock:^(NSArray<MPOFace *> *collection, NSError *error) {
-//            NSMutableArray *faceIds = [NSMutableArray new];
-//            for (MPOFace *face in collection)
-//                [faceIds addObject:face.faceId];
-//
-//            [faceClient identifyWithPersonGroupId:@"705d8839-3850-45ad-b85a-bddebfd90199" faceIds:faceIds maxNumberOfCandidates:1 completionBlock:^(NSArray<MPOIdentifyResult *> *collection, NSError *error) {
-//                NSString *alias = @"";
-//                for (MPOIdentifyResult *result in collection) {
-//                    for (MPOCandidate *candidate in result.candidates) {
-//                        NSString *id = [candidate personId];
-//                        NSMutableArray<MPOPerson *> * persons = [[GLOBALS sharedInstance] persons];
-//                        for (MPOPerson *person in persons) {
-//                            if([id isEqualToString:person.personId])
-//                            {
-//                                alias = person.name;
-//                                break;
-//                            }
-//                        }
-//                    }
-//
-//                    if(alias && ![alias isEqualToString:@""])
-//                    {
-//                        dispatch_async(dispatch_get_main_queue(), ^{
-//                            [[self messageLabel] setText:[NSString stringWithFormat:@"Getting User Info for %@", alias]];
-//                        });
-//
-//                        [self processAlias:alias andCompletionHandler:^(id model) {
-//                            UserInfoModel *userInfo = model;
-//                            dispatch_async(dispatch_get_main_queue(), ^{
-//                                [self ProcessUIForUserInfo:userInfo];
-//                            });
-//                        }];
-//                    }
-//                    else
-//                    {
-//                        dispatch_async(dispatch_get_main_queue(), ^{
-//                            [[self messageLabel] setText:@"Unable to Identify user, may be get closer and try again."];
-//                        });
-//
-//                        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 3 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-//                            self.messagePanel.hidden = YES;
-//                            [self.view layoutSubviews];
-//                        });
-//                    }
-//                }
-//            }];
-//        }];
-//    });
-//}
 
 -(void)ProcessUIForUserInfo:(UserInfoModel *)userInfoModel andHitResult:(SCNVector3)position
 {
@@ -412,7 +415,7 @@ const NSString *GET_USER_GROUP_CONVERSATIONS_URL = @"https://graph.microsoft.com
                             }
                         }
                         
-                        if([eligibleGroups count] == 5)
+                        if([eligibleGroups count] == 3)
                             break;
                     }
                     
