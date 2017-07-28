@@ -39,6 +39,7 @@
 		2D76D4931F295D5C000F027E /* cover835x835.png in Resources */ = {isa = PBXBuildFile; fileRef = 2D76D48D1F295D55000F027E /* cover835x835.png */; };
 		2D76D4941F295D5C000F027E /* cover1024x1024.png in Resources */ = {isa = PBXBuildFile; fileRef = 2D76D48A1F295D55000F027E /* cover1024x1024.png */; };
 		2DF175B71F296930005275FE /* ARSceneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DF175B61F296930005275FE /* ARSceneViewController.m */; };
+		2DF175B91F2A621B005275FE /* Models.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = 2DF175B81F2A621B005275FE /* Models.scnassets */; };
 		3951A8CBDF2BD8BC1EA1DA5C /* Pods_GroupsIn3DTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F030E7F90BEE2DC5F41EB0B /* Pods_GroupsIn3DTests.framework */; };
 		612D29D8FFFFA2688CFFA101 /* Pods_GroupsIn3D.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 433120146C5485EE6F10FCFE /* Pods_GroupsIn3D.framework */; };
 		AF2C913D7237F1AA5106B738 /* Pods_GroupsIn3DUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A35B25F487B591B6FB8AB0F /* Pods_GroupsIn3DUITests.framework */; };
@@ -131,6 +132,7 @@
 		2DF175AD1F29622D005275FE /* GroupsIn3D-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GroupsIn3D-Bridging-Header.h"; sourceTree = "<group>"; };
 		2DF175B51F296930005275FE /* ARSceneViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ARSceneViewController.h; sourceTree = "<group>"; };
 		2DF175B61F296930005275FE /* ARSceneViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ARSceneViewController.m; sourceTree = "<group>"; };
+		2DF175B81F2A621B005275FE /* Models.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = Models.scnassets; sourceTree = "<group>"; };
 		348934761C8449AEAD398D82 /* Pods-GroupsIn3D.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GroupsIn3D.release.xcconfig"; path = "Pods/Target Support Files/Pods-GroupsIn3D/Pods-GroupsIn3D.release.xcconfig"; sourceTree = "<group>"; };
 		3A35B25F487B591B6FB8AB0F /* Pods_GroupsIn3DUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GroupsIn3DUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3FD01CBBA4AEB4ACE2FF8BF5 /* Pods-GroupsIn3D.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GroupsIn3D.debug.xcconfig"; path = "Pods/Target Support Files/Pods-GroupsIn3D/Pods-GroupsIn3D.debug.xcconfig"; sourceTree = "<group>"; };
@@ -251,6 +253,7 @@
 				2D76D45B1F280F1E000F027E /* GLOBALS.m */,
 				2DF175B51F296930005275FE /* ARSceneViewController.h */,
 				2DF175B61F296930005275FE /* ARSceneViewController.m */,
+				2DF175B81F2A621B005275FE /* Models.scnassets */,
 			);
 			path = GroupsIn3D;
 			sourceTree = "<group>";
@@ -451,6 +454,7 @@
 				2D76D4921F295D5C000F027E /* cover76x76.png in Resources */,
 				2D76D4901F295D5C000F027E /* cover40x40.png in Resources */,
 				2D76D4941F295D5C000F027E /* cover1024x1024.png in Resources */,
+				2DF175B91F2A621B005275FE /* Models.scnassets in Resources */,
 				2D76D47F1F295D25000F027E /* cover.png in Resources */,
 				2D76D4591F280D1F000F027E /* arjun.jpg in Resources */,
 				2D76D48F1F295D5C000F027E /* cover29x29.png in Resources */,

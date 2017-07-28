@@ -57,7 +57,10 @@
 	[_spinner startAnimating];
     [[self btnNext] setEnabled:NO];
     [ADALAuthenticationHandler getTokenForUser:userId andCompletionBlock:^(NSString *accessToken) {
-		[_spinner stopAnimating];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [_spinner stopAnimating];
+        });
+        
         if([accessToken hasPrefix:@"ERROR:"])
         {
             UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Error"
@@ -68,7 +71,11 @@
             
             [self presentViewController:alert animated:YES completion:nil];
             [[self btnNext] setEnabled:YES];
-			[_spinner stopAnimating];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [_spinner stopAnimating];
+            });
+            
 			[_spinnerView setHidden:YES];
         }
         else

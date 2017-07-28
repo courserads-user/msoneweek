@@ -9,13 +9,29 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "GroupsIn3D/ViewController.m"
-            timestampString = "522810512.996211"
+            filePath = "GroupsIn3D/ARSceneViewController.m"
+            timestampString = "522898979.476375"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "120"
-            endingLineNumber = "120"
-            landmarkName = "-touchesEnded:withEvent:"
+            startingLineNumber = "205"
+            endingLineNumber = "205"
+            landmarkName = "-insertCubeFrom:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "GroupsIn3D/ARSceneViewController.m"
+            timestampString = "522898979.476961"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "163"
+            endingLineNumber = "163"
+            landmarkName = "-addObjectForUser:andPosition:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
