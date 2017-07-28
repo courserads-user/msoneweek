@@ -41,6 +41,7 @@ const float layerOpacity = .8f;
 @property (nonatomic) CGColorRef layerColor;
 @property (weak, nonatomic) IBOutlet UILabel *messageLabel;
 @property CGPoint screenCenter;
+@property (weak, nonatomic) IBOutlet UISwitch *sampleSwitch;
 
 @end
 
@@ -65,6 +66,10 @@ const float layerOpacity = .8f;
     [self.sceneView addGestureRecognizer:tapGestureRecognizer];
     
 	[self.view layoutSubviews];
+}
+
+- (IBAction)sampleSwitchClicked:(id)sender {
+    NSLog(@"Switching");
 }
 
 -(void)setupScene
@@ -289,8 +294,12 @@ const float layerOpacity = .8f;
     }
 		
 	_currentUserInfoModel = nil;
-//    UIImage *image = [self imageFromSampleBuffer:self.sceneView.session.currentFrame.capturedImage];
-    UIImage *image = [UIImage imageNamed:@"arjun.jpg"];
+    UIImage *image = nil;
+    if([[self sampleSwitch] isOn])
+        image = [UIImage imageNamed:@"arjun.jpg"];
+    else
+        image = [self imageFromSampleBuffer:self.sceneView.session.currentFrame.capturedImage];
+
     self.messagePanel.hidden = NO;
     [self.view layoutSubviews];
     [[self messageLabel] setText:@"Identifying Person..."];
@@ -381,7 +390,7 @@ const float layerOpacity = .8f;
 {
     [[self messageLabel] setText:[NSString stringWithFormat:@"Data Loaded for %@", [userInfoModel displayName]]];
     self.messagePanel.hidden = YES;
-    [self.view layoutSubviews];        
+    [self.view layoutSubviews];
     [self insertCubeForuser:userInfoModel];
 }
 
