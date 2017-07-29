@@ -22,6 +22,7 @@
 #import "UserGroupMember.h"
 #import "UserGroupConversation.h"
 #import <Mantle/Mantle.h>
+#import <linkedin-sdk/LISDK.h>
 
 const NSString *GET_USER_INFO_URL = @"https://graph.microsoft.com/v1.0/users/%@@microsoft.com?$select=id,businessPhones,displayName,givenName,jobTitle,mail,mobilePhone,officeLocation,preferredLanguage,surname,userPrincipalName";
 const NSString *GET_USER_GROUPS_URL = @"https://graph.microsoft.com/v1.0/users/%@@microsoft.com/memberOf?$select=id,description,displayName,mail,classification,visibility,groupTypes&$top=999";
@@ -66,6 +67,16 @@ const float layerOpacity = .8f;
     [self.sceneView addGestureRecognizer:tapGestureRecognizer];
     
 	[self.view layoutSubviews];
+    
+//    [LISDKSessionManager createSessionWithAuth:[NSArray arrayWithObjects:LISDK_BASIC_PROFILE_PERMISSION, nil]
+//                                         state:nil
+//                        showGoToAppStoreDialog:NO
+//                                  successBlock:^(NSString *success) {
+//                                      NSLog(@"%s","success called!");
+//                                      LISDKSession *session = [[LISDKSessionManager sharedInstance] session];
+//                                  } errorBlock:^(NSError *error) {
+//                                       NSLog(@"%s","error called!");
+//                                  }];
 }
 
 - (IBAction)sampleSwitchClicked:(id)sender {
@@ -292,7 +303,8 @@ const float layerOpacity = .8f;
             return;
         }
     }
-		
+    
+    [self clearNodes];
 	_currentUserInfoModel = nil;
     UIImage *image = nil;
     if([[self sampleSwitch] isOn])

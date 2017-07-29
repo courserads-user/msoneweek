@@ -15,6 +15,7 @@
 		2D2D2CB61F267049002201BE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D2D2CB51F267049002201BE /* main.m */; };
 		2D2D2CC01F26704A002201BE /* GroupsIn3DTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D2D2CBF1F26704A002201BE /* GroupsIn3DTests.m */; };
 		2D2D2CCB1F26704A002201BE /* GroupsIn3DUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D2D2CCA1F26704A002201BE /* GroupsIn3DUITests.m */; };
+		2D50FB511F2C060A00C6D57B /* linkedin-sdk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D50FB501F2C05DF00C6D57B /* linkedin-sdk.framework */; };
 		2D76D3FC1F268F5C000F027E /* ADALAuthenticationHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D76D3FB1F268F5B000F027E /* ADALAuthenticationHandler.m */; };
 		2D76D4411F269E9E000F027E /* UserAuthenticationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D76D4401F269E9E000F027E /* UserAuthenticationViewController.m */; };
 		2D76D4441F26B279000F027E /* Notes in Resources */ = {isa = PBXBuildFile; fileRef = 2D76D4431F26B279000F027E /* Notes */; };
@@ -83,6 +84,7 @@
 		2D2D2CCC1F26704A002201BE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2D2D2CD81F267124002201BE /* Podfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		2D50FB4D1F2BBBB700C6D57B /* jim.JPG */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = jim.JPG; sourceTree = "<group>"; };
+		2D50FB501F2C05DF00C6D57B /* linkedin-sdk.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = "linkedin-sdk.framework"; sourceTree = "<group>"; };
 		2D76D3F81F268F07000F027E /* GroupsIn3D.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = GroupsIn3D.entitlements; sourceTree = "<group>"; };
 		2D76D3FA1F268F5B000F027E /* ADALAuthenticationHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ADALAuthenticationHandler.h; sourceTree = "<group>"; };
 		2D76D3FB1F268F5B000F027E /* ADALAuthenticationHandler.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ADALAuthenticationHandler.m; sourceTree = "<group>"; };
@@ -150,6 +152,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				612D29D8FFFFA2688CFFA101 /* Pods_GroupsIn3D.framework in Frameworks */,
+				2D50FB511F2C060A00C6D57B /* linkedin-sdk.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -188,6 +191,7 @@
 		2D2D2C981F267049002201BE = {
 			isa = PBXGroup;
 			children = (
+				2D50FB501F2C05DF00C6D57B /* linkedin-sdk.framework */,
 				2D76D44B1F27B641000F027E /* VNFaceObservation+Hack.h */,
 				2D76D44C1F27B641000F027E /* VNFaceObservation+Hack.m */,
 				2D76D4481F26CD11000F027E /* FrameExtractor.h */,
@@ -811,6 +815,10 @@
 				CODE_SIGN_ENTITLEMENTS = GroupsIn3D/GroupsIn3D.entitlements;
 				DEFINES_MODULE = NO;
 				DEVELOPMENT_TEAM = UBF8T346G9;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = GroupsIn3D/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.GroupsIn3D;
@@ -831,6 +839,10 @@
 				CODE_SIGN_ENTITLEMENTS = GroupsIn3D/GroupsIn3D.entitlements;
 				DEFINES_MODULE = NO;
 				DEVELOPMENT_TEAM = UBF8T346G9;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = GroupsIn3D/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.GroupsIn3D;
